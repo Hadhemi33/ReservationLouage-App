@@ -17,14 +17,21 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 export default function AjouterOffre() {
   const [datePicker, setDatePicker] = useState(false);
   const [date, setDate] = useState(new Date());
+
   const [timePicker, setTimePicker] = useState(false);
   const [time, setTime] = useState(new Date(Date.now()));
+
+  const [timeArriveePicker, setTimeArriveePicker] = useState(false);
+  const [timeArrivee, setTimeArrivee] = useState(new Date(Date.now()));
 
   function showDatePicker() {
     setDatePicker(true);
   }
   function showTimePicker() {
     setTimePicker(true);
+  }
+  function showTimeArriveePicker() {
+    setTimeArriveePicker(true);
   }
 
   function onDateSelected(event, value) {
@@ -34,6 +41,10 @@ export default function AjouterOffre() {
   function onTimeSelected(event, value) {
     setTime(value);
     setTimePicker(false);
+  }
+  function onTimeArriveeSelected(event, value) {
+    setTimeArrivee(value);
+    setTimeArriveePicker(false);
   }
 
   const navigation = useNavigation();
@@ -84,6 +95,14 @@ export default function AjouterOffre() {
           time.getSeconds() +
           ":" +
           time.getMilliseconds(),
+        heureArrivee:
+          timeArrivee.getHours() +
+          ":" +
+          timeArrivee.getMinutes() +
+          ":" +
+          timeArrivee.getSeconds() +
+          ":" +
+          timeArrivee.getMilliseconds(),
         depart,
         arrivee,
         prix,
@@ -91,7 +110,7 @@ export default function AjouterOffre() {
       })
       .then(() => {
         setAdded(!added);
-        navigation.navigate("Accueil");
+        navigation.replace("Accueil");
         alert("Offre ajoutée avec succès");
       })
       .catch((error) => {
@@ -176,6 +195,37 @@ export default function AjouterOffre() {
               placeholderTextColor="#003f5c"
             >
               {time.getHours()}:{time.getMinutes()}
+            </Text>
+          </TouchableOpacity>
+
+          {/* ///////// */}
+          {/* Heure */}
+          {timeArriveePicker && (
+            <DateTimePicker
+              value={timeArrivee}
+              mode={"time"}
+              display={Platform.OS === "ios" ? "spinner" : "default"}
+              is24Hour={false}
+              onChange={onTimeArriveeSelected}
+              style={styles.datePicker}
+            />
+          )}
+          {!timeArriveePicker && (
+            <View style={{ margin: 10 }}>
+              <TouchableOpacity
+                title="Show Time Picker"
+                color="green"
+                onPress={showTimeArriveePicker}
+              />
+            </View>
+          )}
+          <TouchableOpacity onPress={showTimeArriveePicker}>
+            <Text
+              style={styles.inputText}
+              placeholder="Heure Depart"
+              placeholderTextColor="#003f5c"
+            >
+              {timeArrivee.getHours()}:{timeArrivee.getMinutes()}
             </Text>
           </TouchableOpacity>
 

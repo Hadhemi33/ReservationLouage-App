@@ -1,13 +1,29 @@
+import React, { useEffect } from "react";
+import { useNavigation } from "@react-navigation/core";
 
-import React, { useEffect } from 'react'
-import { useNavigation } from '@react-navigation/core'
-
-import { View, StyleSheet, Image, TouchableOpacity, Text, TextInput } from 'react-native'
-import { auth } from '../firebase'
+import {
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Text,
+  TextInput,
+} from "react-native";
+import { auth } from "../firebase";
 export default function Accueil() {
-  const s = require('../styles/Style')
-  const navigation = useNavigation()
-
+  const s = require("../styles/Style");
+  const navigation = useNavigation();
+  const handleLogout = () => {
+    auth
+      .signOut()
+      .then(() => {
+        navigation.replace("Home");
+        console.log("user logged out");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
   // useEffect(() => {
   //   const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -25,72 +41,81 @@ export default function Accueil() {
   const handleEnv = () => {
     auth.currentUser.reload().then(() => {
       if (auth.currentUser.emailVerified) {
-
-        alert("votre compte est vérifié")
+        alert("votre compte est vérifié");
         navigation.replace("Accueil");
-
-      }
-      else {
-        alert("votre compte n'est pas encore vérifié")
+      } else {
+        alert("votre compte n'est pas encore vérifié");
         navigation.replace("validationsuccess");
       }
-    })
-
-  }
+    });
+  };
   return (
     <View style={s.container}>
-
-
-
-      <View >
-        <Image style={style.logo} source={require("../assets/codeverification.png")} ></Image>
-
+      <View>
+        <Image
+          style={style.logo}
+          source={require("../assets/codeverification.png")}
+        ></Image>
       </View>
       <View style={style.TextConf}>
-        <Text style={style.TextConfirmation}>Confirmation d’identité  </Text>
+        <Text style={style.TextConfirmation}>Confirmation d’identité </Text>
       </View>
       <View style={style.Textinfo}>
-        <Text style={style.Textinfo1}>Vous avez reçu un mail sur : {"\n"} {auth.currentUser.email} </Text>
+        <Text style={style.Textinfo1}>
+          Vous avez reçu un mail sur : {"\n"} {auth.currentUser.email}{" "}
+        </Text>
       </View>
-
-      <View style={style.buttonEnvoyer0}>
-        <TouchableOpacity onPress={handleEnv} style={style.buttonEnvoyer}>
-          <Text style={style.buttonTextEnvoyer}>Passer</Text>
+      <View style={style.buttnContainer}>
+        <View style={style.buttonEnvoyer0}>
+          <TouchableOpacity onPress={handleEnv}>
+            <Text style={style.buttonTextEnvoyer}>Passer</Text>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity onPress={handleLogout} style={style.buttonEnvoyer}>
+          <Text style={style.buttonTextInscrit}>Déconnexion </Text>
         </TouchableOpacity>
       </View>
-
-
     </View>
   );
 }
 
 const style = StyleSheet.create({
+  buttnContainer: {
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "80%",
+  },
+
+  buttonTextInscrit: {
+    color: "#71A3A3",
+    fontSize: 18,
+    right: -90,
+    marginBottom: 5,
+    width: "60%",
+  },
   buttonEnvoyer0: {
-    backgroundColor: '#2DBDBD',
-    width: "40%",
+    backgroundColor: "#2DBDBD",
+    width: "60%",
     padding: 10,
     borderRadius: 10,
     height: 50,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    justifyContent: "flex-end",
+    alignItems: "center",
+    marginBottom: 10,
+
     left: 90,
     marginTop: 40,
   },
   buttonTextEnvoyer: {
-
-    color: 'white',
+    color: "white",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 
-
-
-
-
   logo: {
-    position: 'relative',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    position: "relative",
+    alignItems: "center",
+    justifyContent: "flex-start",
     height: "50%",
     marginBottom: 10,
     top: -90,
@@ -99,22 +124,21 @@ const style = StyleSheet.create({
     fontWeight: "bold",
   },
   TextConf: {
-    position: 'relative',
-    justifyContent: 'flex-start',
+    position: "relative",
+    justifyContent: "flex-start",
 
     top: -90,
   },
 
   TextConfirmation: {
-
     textAlign: "center",
     fontSize: 30,
     fontWeight: "bold",
     color: "#078282",
   },
   Textinfo: {
-    position: 'relative',
-    justifyContent: 'center',
+    position: "relative",
+    justifyContent: "center",
     top: -90,
     marginBottom: 5,
   },
@@ -126,15 +150,14 @@ const style = StyleSheet.create({
   },
 
   inputView: {
-    width: '90%'
-
+    width: "90%",
   },
   inputText: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     paddingHorizontal: 15,
     paddingVertical: 20,
     borderRadius: 10,
     borderWidth: 1,
     fontSize: 14,
   },
-})
+});
