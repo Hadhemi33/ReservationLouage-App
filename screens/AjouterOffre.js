@@ -67,6 +67,38 @@ export default function AjouterOffre() {
   const [added, setAdded] = useState(false);
 
   const handleAdd = () => {
+    if (depart === "") {
+      alert("Veuillez saisir la ville de départ");
+      return;
+    }
+    if (arrivee === "") {
+      alert("Veuillez saisir la ville d'arrivée");
+      return;
+    }
+    if (prix === "") {
+      alert("Veuillez saisir le prix");
+      return;
+    }
+    if (prix < 0) {
+      alert("Veuillez saisir un prix positif");
+      return;
+    }
+
+    if (places === "") {
+      alert("Veuillez saisir le nombre de places");
+      return;
+    }
+    if (places < 0) {
+      alert("Veuillez saisir un nombre de places positif");
+      return;
+    }
+    if (places > 8){
+      alert("Veuillez saisir un nombre de places inférieur à 8");
+      return;
+    }
+
+
+
     db.collection("offres")
       .add({
         chauffeurID,
@@ -157,6 +189,8 @@ export default function AjouterOffre() {
               display={Platform.OS === "ios" ? "spinner" : "default"}
               is24Hour={true}
               onChange={onDateSelected}
+              minimumDate={new Date()}
+              maximumDate={new Date(2023, 11, 31)}
               style={styles.datePicker}
             />
           )}
@@ -186,6 +220,8 @@ export default function AjouterOffre() {
               display={Platform.OS === "ios" ? "spinner" : "default"}
               is24Hour={false}
               onChange={onTimeSelected}
+              minimumDate={new Date()}
+              minuteInterval={5}
               style={styles.datePicker}
             />
           )}
