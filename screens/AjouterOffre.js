@@ -14,6 +14,7 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from '@react-native-picker/picker';
+import Menu from "./Menu";
 
 
 export default function AjouterOffre() {
@@ -129,7 +130,6 @@ export default function AjouterOffre() {
   ];
   const s = require("../styles/Style");
   return (
-    <NavigationContainer independent={true}>
       <View style={styles.container}>
         <View style={styles.inputView}>
 
@@ -266,8 +266,9 @@ export default function AjouterOffre() {
         <TouchableOpacity onPress={handleAdd} style={s.buttonInscrit}>
           <Text style={s.buttonTextInscrit}>Publier </Text>
         </TouchableOpacity>
+
+
       </View>
-    </NavigationContainer>
   );
 }
 const styles = StyleSheet.create({

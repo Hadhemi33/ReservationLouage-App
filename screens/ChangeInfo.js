@@ -7,27 +7,39 @@ import {
   View,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { auth, db } from "../firebase";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/core";
+import Menu from "./Menu";
 
-export default function App({ route, navigation }) {
-  const { userr } = route.params;
-  // const navigation = useNavigation()
+export default function App() {
+  const [user, setUser] = useState(null);
+
   const s = require("../styles/Style");
-  const [nom, setNom] = useState(userr?.data().nom);
-  const [prenom, setPrenom] = useState(userr?.data().prenom);
-  const [cin, setCin] = useState(userr?.data().cin);
-  const [numTel, setNumTel] = useState(userr?.data().numerodetelephone);
+  const [nom, setNom] = useState("");
+  const [prenom, setPrenom] = useState("");
+  const [cin, setCin] = useState("");
+  const [numTel, setNumTel] = useState("");
+  const [IdentifiantUnique, setIdentifiantUnique] = useState("");
 
-  const [IdentifiantUnique, setIdentifiantUnique] = useState(
-    userr?.data().Identifiantunique
-  );
+  useEffect(() => {
+    db.collection("users").doc(auth.currentUser.uid).get().then((doc) => {
+      console.log("Document data:", doc.data());
+      setUser(doc)
+      setNom(doc.data().nom) ;
+      setPrenom(doc.data().prenom) ;
+      setCin(doc.data().cin) ;
+      setNumTel(doc.data().numerodetelephone) ;
+      setIdentifiantUnique(doc.data().Identifiantunique? doc.data().Identifiantunique : "" ) ;
+    });
+  }, []);
+
+
   const handleMetreAJour = () => {
-    if (userr.data().role == "chauffeur") {
+    if (user.data().role == "chauffeur") {
       db.collection("users")
-        .doc(userr.id)
+        .doc(user.id)
         .update({
           nom: nom,
           prenom: prenom,
@@ -43,7 +55,7 @@ export default function App({ route, navigation }) {
         });
     } else {
       db.collection("users")
-        .doc(userr.id)
+        .doc(user.id)
         .update({
           nom: nom,
           prenom: prenom,
@@ -190,11 +202,11 @@ export default function App({ route, navigation }) {
           />
         </View>
       </View>
-      {userr?.data().role === "chauffeur" && (
+      {user?.data().role === "chauffeur" && (
         <View style={styles.inputlabel}>
           <Text style={styles.TextLabel}>Id: </Text>
           <View style={styles.inputView}>
-          <Icon style={styles.inputIcon} name="edit" size={24} color="red"/>
+            <Icon style={styles.inputIcon} name="edit" size={24} color="red" />
 
             <TextInput
               style={styles.TextInput}

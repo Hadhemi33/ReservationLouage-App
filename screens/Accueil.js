@@ -14,6 +14,7 @@ import {
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import "react-native-gesture-handler";
 import Checkbox from "expo-checkbox";
+import Menu from "./Menu";
 
 export default function Accueil() {
   const s = require("../styles/Style");
@@ -21,13 +22,9 @@ export default function Accueil() {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
   const handleMenu = () => {
-    db.collection("users")
-      .doc(auth?.currentUser?.uid)
-      .get()
-      .then((doc) => {
-        setUser(doc.data());
-        navigation.navigate("ChangeInfo", { userr: doc });
-      });
+
+    navigation.navigate("ChangeInfo");
+
   };
 
   const [loading, setLoading] = useState(true);
@@ -103,7 +100,6 @@ export default function Accueil() {
     });
   }, [navigation]);
   const [isChecked, setChecked] = useState(false);
-  var x
 
   return (
     <View style={s.container}>
@@ -199,7 +195,7 @@ export default function Accueil() {
                     <Text style={styles.textDate}>
 
                       {new Date(off.data().date.seconds * 1000).getDate()}/
-                      {new Date(off.data().date.seconds * 1000).getMonth()+1}/
+                      {new Date(off.data().date.seconds * 1000).getMonth() + 1}/
                       {new Date(off.data().date.seconds * 1000).getFullYear()}
 
                     </Text>
@@ -214,10 +210,10 @@ export default function Accueil() {
                   <View style={styles.offrebody}>
                     <View style={styles.ligne}>
                       <Text style={styles.textDepart}>
-                       
-                      {new Date(off.data().heure.seconds * 1000).getHours()}:
-                      {new Date(off.data().heure.seconds * 1000).getMinutes()}
-                       
+
+                        {new Date(off.data().heure.seconds * 1000).getHours()}:
+                        {new Date(off.data().heure.seconds * 1000).getMinutes()}
+
 
                       </Text>
                       <View
@@ -229,7 +225,7 @@ export default function Accueil() {
                       />
 
                       <Text style={styles.textDepart}>
-                      {/* a ajouter */}
+                        {/* a ajouter */}
                       </Text>
                     </View>
 
@@ -314,6 +310,8 @@ export default function Accueil() {
           )}
         </ScrollView>
       </View>
+      <Menu role={user?.role} />
+
     </View>
   );
 }
