@@ -143,8 +143,7 @@ export default function ModifierOffre({ route, navigation }) {
             display={ "default"}
             is24Hour={false}
             onChange={onTimeSelected}
-            minimumDate={new Date()}
-            maximumDate={new Date(2023, 11, 31)}
+              minuteInterval={5}
             style={styles.datePicker}
           />
         )}

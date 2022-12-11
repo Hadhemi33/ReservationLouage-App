@@ -220,7 +220,6 @@ export default function AjouterOffre() {
               display={ "default"}
               is24Hour={false}
               onChange={onTimeSelected}
-              minimumDate={new Date()}
               minuteInterval={5}
               style={styles.datePicker}
             />
