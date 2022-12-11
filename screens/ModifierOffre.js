@@ -15,10 +15,10 @@ export default function ModifierOffre({ route, navigation }) {
   const { offr } = route.params;
 
   const [datePicker, setDatePicker] = useState(false);
-  const [date, setDate] = useState(new Date(offr.data().date));
+  const [date, setDate] = useState(new Date( offr.data().date.seconds * 1000));
   const [timePicker, setTimePicker] = useState(false);
   // à corriger
-  const [time, setTime] = useState(new Date(Date.now()));
+  const [time, setTime] = useState(new Date(offr.data().heure.seconds * 1000));
 
   function showDatePicker() {
     setDatePicker(true);
@@ -45,13 +45,8 @@ export default function ModifierOffre({ route, navigation }) {
     db.collection("offres")
       .doc(offr.id)
       .update({
-        date:
-          date.getDate() +
-          "/" +
-          (date.getMonth() + 1) +
-          "/" +
-          date.getFullYear(),
-        heure: time.getHours() + ":" + time.getMinutes(),
+        date:date,
+        heure: time,
         depart: depart,
         arrivee: arrivee,
         prix: prix,

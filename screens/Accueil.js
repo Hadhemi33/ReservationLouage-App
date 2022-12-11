@@ -103,6 +103,7 @@ export default function Accueil() {
     });
   }, [navigation]);
   const [isChecked, setChecked] = useState(false);
+  var x
 
   return (
     <View style={s.container}>
@@ -186,7 +187,8 @@ export default function Accueil() {
                   ? offre.data().chauffeurID == user?.Identifiantunique
                   : true;
               })
-              .map((off) => (
+              .map((off) =>
+              (
                 <View style={styles.offre} key={off.id}>
                   <View style={styles.offreheader}>
                     <MaterialIcons
@@ -194,7 +196,13 @@ export default function Accueil() {
                       name="directions-car"
                     ></MaterialIcons>
                     {/* date ili 7atha chauffeur  */}
-                    <Text style={styles.textDate}>{off.data().date}</Text>
+                    <Text style={styles.textDate}>
+
+                      {new Date(off.data().date.seconds * 1000).getDate()}/
+                      {new Date(off.data().date.seconds * 1000).getMonth()+1}/
+                      {new Date(off.data().date.seconds * 1000).getFullYear()}
+
+                    </Text>
                     <View style={styles.offreChauffeur}>
                       <MaterialIcons
                         style={styles.iconCar}
@@ -205,7 +213,13 @@ export default function Accueil() {
                   </View>
                   <View style={styles.offrebody}>
                     <View style={styles.ligne}>
-                      <Text style={styles.textDepart}>{off.data().heure}</Text>
+                      <Text style={styles.textDepart}>
+                       
+                      {new Date(off.data().heure.seconds * 1000).getHours()}:
+                      {new Date(off.data().heure.seconds * 1000).getMinutes()}
+                       
+
+                      </Text>
                       <View
                         style={{
                           flex: 0.75,
@@ -214,7 +228,9 @@ export default function Accueil() {
                         }}
                       />
 
-                      <Text style={styles.textDepart}>{off.data().heure}</Text>
+                      <Text style={styles.textDepart}>
+                      {/* a ajouter */}
+                      </Text>
                     </View>
 
                     <View style={styles.ligne2}>

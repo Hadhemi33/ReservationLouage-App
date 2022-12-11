@@ -70,20 +70,8 @@ export default function AjouterOffre() {
       .add({
         chauffeurID,
         chauffeur: chauffeurNom,
-        date:
-          date.getDate() +
-          "/" +
-          (date.getMonth() + 1) +
-          "/" +
-          date.getFullYear(),
-        heure:
-          time.getHours() +
-          ":" +
-          time.getMinutes() +
-          ":" +
-          time.getSeconds() +
-          ":" +
-          time.getMilliseconds(),
+        date:date,
+        heure:time,
         depart,
         arrivee,
         prix,
@@ -91,7 +79,7 @@ export default function AjouterOffre() {
       })
       .then(() => {
         setAdded(!added);
-        navigation.navigate("Accueil");
+        navigation.replace("Accueil");
         alert("Offre ajoutée avec succès");
       })
       .catch((error) => {
@@ -191,6 +179,7 @@ export default function AjouterOffre() {
             style={styles.inputText}
             placeholder="Nombre des places"
             placeholderTextColor="#003f5c"
+            
             value={places}
             onChangeText={(text) => setPlaces(text)}
           />
