@@ -15,7 +15,7 @@ import Menu from "./Menu";
 
 export default function App() {
   const [user, setUser] = useState(null);
-
+  const navigation = useNavigation();
   const s = require("../styles/Style");
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
