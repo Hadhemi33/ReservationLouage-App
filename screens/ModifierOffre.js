@@ -15,7 +15,7 @@ export default function ModifierOffre({ route, navigation }) {
   const { offr } = route.params;
 
   const [datePicker, setDatePicker] = useState(false);
-  const [date, setDate] = useState(new Date( offr.data().date.seconds * 1000));
+  const [date, setDate] = useState(new Date(offr.data().date.seconds * 1000));
   const [timePicker, setTimePicker] = useState(false);
   // à corriger
   const [time, setTime] = useState(new Date(offr.data().heure.seconds * 1000));
@@ -45,7 +45,7 @@ export default function ModifierOffre({ route, navigation }) {
     db.collection("offres")
       .doc(offr.id)
       .update({
-        date:date,
+        date: date,
         heure: time,
         depart: depart,
         arrivee: arrivee,
@@ -105,9 +105,12 @@ export default function ModifierOffre({ route, navigation }) {
           <DateTimePicker
             value={date}
             mode={"date"}
-            display={Platform.OS === "ios" ? "spinner" : "default"}
+            display= {"default"}
             is24Hour={true}
             onChange={onDateSelected}
+            minimumDate={new Date()}
+            maximumDate={new Date(2023, 11, 31)}
+
             style={styles.datePicker}
           />
         )}
@@ -137,9 +140,11 @@ export default function ModifierOffre({ route, navigation }) {
           <DateTimePicker
             value={time}
             mode={"time"}
-            display={Platform.OS === "ios" ? "spinner" : "default"}
+            display={ "default"}
             is24Hour={false}
             onChange={onTimeSelected}
+            minimumDate={new Date()}
+            maximumDate={new Date(2023, 11, 31)}
             style={styles.datePicker}
           />
         )}

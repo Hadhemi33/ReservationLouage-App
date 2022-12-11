@@ -186,7 +186,7 @@ export default function AjouterOffre() {
             <DateTimePicker
               value={date}
               mode={"date"}
-              display={Platform.OS === "ios" ? "spinner" : "default"}
+              display={ "default"}
               is24Hour={true}
               onChange={onDateSelected}
               minimumDate={new Date()}
@@ -217,7 +217,7 @@ export default function AjouterOffre() {
             <DateTimePicker
               value={time}
               mode={"time"}
-              display={Platform.OS === "ios" ? "spinner" : "default"}
+              display={ "default"}
               is24Hour={false}
               onChange={onTimeSelected}
               minimumDate={new Date()}
