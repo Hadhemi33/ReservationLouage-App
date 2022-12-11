@@ -13,6 +13,8 @@ import { db, auth } from "../firebase";
 import { NavigationContainer } from "@react-navigation/native";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { Picker } from '@react-native-picker/picker';
+
 
 export default function AjouterOffre() {
   const [datePicker, setDatePicker] = useState(false);
@@ -38,11 +40,10 @@ export default function AjouterOffre() {
 
   const navigation = useNavigation();
 
-  const [heure, setHeure] = useState("");
   const [depart, setDepart] = useState("");
   const [arrivee, setArrivee] = useState("");
   const [prix, setPrix] = useState("");
-  const [places, setPlaces] = useState();
+  const [places, setPlaces] = useState("");
   const [chauffeurID, setChauffeurID] = useState("");
   const [chauffeurNom, setChauffeurNom] = useState("");
 
@@ -70,8 +71,8 @@ export default function AjouterOffre() {
       .add({
         chauffeurID,
         chauffeur: chauffeurNom,
-        date:date,
-        heure:time,
+        date: date,
+        heure: time,
         depart,
         arrivee,
         prix,
@@ -87,26 +88,66 @@ export default function AjouterOffre() {
       });
   };
 
+
+  const region = [
+    { label: "Elguettar", value: "Elguettar" },
+    { label: "Metlaoui", value: "Metlaoui" },
+    { label: "Salakta", value: "Salakta" },
+    { label: "Tunis", value: "Tunis" },
+  ];
   const s = require("../styles/Style");
   return (
     <NavigationContainer independent={true}>
       <View style={styles.container}>
         <View style={styles.inputView}>
-          <TextInput
+
+          <Picker
+            style={styles.inputText}
+            selectedValue={depart}
+            mode="dropdown"
+            onValueChange={(itemValue, itemIndex) =>
+              setDepart(itemValue)
+            }>
+            {region.filter((item) => item.value !== arrivee).
+            map((item, index) => {
+              return (
+                <Picker.Item label={item.label} value={item.value} key={index} />
+              )
+            }
+            )}
+
+          </Picker>
+
+          {/* <TextInput
             style={styles.inputText}
             placeholder="Depart..."
             placeholderTextColor="#003f5c"
             value={depart}
             onChangeText={(text) => setDepart(text)}
-          />
+          /> */}
 
-          <TextInput
+          <Picker
+            style={styles.inputText}
+            selectedValue={arrivee}
+            mode="dropdown"
+            onValueChange={(itemValue, itemIndex) =>
+              setArrivee(itemValue)
+            }>
+            {region.filter((item) => item.value !== depart).map((item, index) => {
+              return (
+                <Picker.Item label={item.label} value={item.value} key={index} />
+              )
+            }
+            )}
+          </Picker>
+
+          {/* <TextInput
             style={styles.inputText}
             placeholder="Destination..."
             placeholderTextColor="#003f5c"
             value={arrivee}
             onChangeText={(text) => setArrivee(text)}
-          />
+          /> */}
 
           {/* date */}
           {datePicker && (
@@ -176,10 +217,10 @@ export default function AjouterOffre() {
           />
 
           <TextInput
+            required
             style={styles.inputText}
             placeholder="Nombre des places"
             placeholderTextColor="#003f5c"
-            
             value={places}
             onChangeText={(text) => setPlaces(text)}
           />
