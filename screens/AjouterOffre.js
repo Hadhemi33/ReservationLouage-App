@@ -248,6 +248,7 @@ export default function AjouterOffre() {
             placeholder="Prix..."
             placeholderTextColor="#003f5c"
             value={prix}
+            keyboardType="numeric"
             onChangeText={(text) => setPrix(text)}
           />
 
@@ -257,6 +258,7 @@ export default function AjouterOffre() {
             placeholder="Nombre des places"
             placeholderTextColor="#003f5c"
             value={places}
+            keyboardType="numeric"
             onChangeText={(text) => setPlaces(text)}
           />
         </View>
