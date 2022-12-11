@@ -41,7 +41,7 @@ export default function AjouterOffre() {
 
   const navigation = useNavigation();
 
-  const [depart, setDepart] = useState("");
+  const [depart, setDepart] = useState("Elguettar");
   const [arrivee, setArrivee] = useState("");
   const [prix, setPrix] = useState("");
   const [places, setPlaces] = useState("");
