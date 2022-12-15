@@ -34,6 +34,7 @@ export default function AjouterOffre() {
   function showTimeArriveePicker() {
     setTimeArriveePicker(true);
   }
+ 
   function onDateSelected(event, value) {
     setDate(value);
     setDatePicker(false);
@@ -41,6 +42,10 @@ export default function AjouterOffre() {
   function onTimeSelected(event, value) {
     setTime(value);
     setTimePicker(false);
+  }
+  function onTimeArriveeSelected(event, value) {
+    setTimeArrivee(value);
+    setTimeArriveePicker(false);
   }
 
   function onTimeArriveeSelected(event, value) {
@@ -116,6 +121,7 @@ export default function AjouterOffre() {
         date: date,
         heure: time,
         heureArrivee: timeArrivee,
+
         depart,
         arrivee,
         prix,
@@ -226,6 +232,7 @@ export default function AjouterOffre() {
               title="Show Date Picker"
               conPress={showDatePicker}
             />
+
           </View>
         )}
         <TouchableOpacity onPress={showDatePicker}>

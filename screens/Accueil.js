@@ -10,6 +10,7 @@ import {
   ScrollView,
   ActivityIndicator,
   Input,
+  Alert,
 } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import "react-native-gesture-handler";
@@ -55,10 +56,20 @@ export default function Accueil() {
   const [searchText, setSearchText] = useState("");
 
   const handleAlertConnecter = () => {
-    alert("Vous devez vous connecter pour accéder à cette fonctionnalité");
-  };
-  const handleConnecter = () => {
-    navigation.navigate("Home");
+    return Alert.alert("Vous êtes sûr? ", "Vous devez conncter tout d'abords", [
+      // The "Yes" button
+      {
+        text: "Oui",
+        onPress: () => {
+          navigation.replace("Home");
+        },
+      },
+      // The "No" button
+      // Does nothing but dismiss the dialog when tapped
+      {
+        text: "Non",
+      },
+    ]);
   };
 
   React.useEffect(() => {
@@ -115,7 +126,7 @@ export default function Accueil() {
           />
         </View>
         <View style={styles.filtre}>
-          {user?.role == "chauffeur" ? (
+          {user?.role == "chauffeur" && (
             <View style={styles.filtreOffre}>
               <Checkbox
                 style={styles.checkbox}
@@ -125,7 +136,8 @@ export default function Accueil() {
               />
               <Text style={styles.textFiltre}> Mes offres </Text>
             </View>
-          ) : (
+          )}
+          {user?.role == "client" && (
             <TouchableOpacity
               style={styles.filtreOffre}
               onPress={() => {
@@ -154,7 +166,6 @@ export default function Accueil() {
       <View style={styles.bloc1}>
         {/* ////////////////////////////////////////////////////////// */}
         <ScrollView style={styles.scrollView}>
-
 
           {!loading ? (
             offres
@@ -220,9 +231,11 @@ export default function Accueil() {
                       />
 
                       <Text style={styles.textDepart}>
+
                       {new Date(off.data().heureArrivee?.seconds * 1000).getHours()}:
                         {new Date(off.data().heureArrivee?.seconds * 1000).getMinutes()}
 
+ 
                       </Text>
                     </View>
 
