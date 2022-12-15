@@ -4,7 +4,6 @@ import { TouchableOpacity, View, StyleSheet, Text, Image } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 const Menu = (props) => {
-    console.log(props.role);
     const navigation = useNavigation();
     return (
         <View style={styles.menuContainer}>

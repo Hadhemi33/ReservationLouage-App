@@ -10,16 +10,15 @@ import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/core";
 import { db, auth } from "../firebase";
 
-import { NavigationContainer } from "@react-navigation/native";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from '@react-native-picker/picker';
-import Menu from "./Menu";
 
 
 export default function AjouterOffre() {
   const [datePicker, setDatePicker] = useState(false);
   const [date, setDate] = useState(new Date());
+
   const [timePicker, setTimePicker] = useState(false);
   const [time, setTime] = useState(new Date(Date.now()));
 
@@ -42,7 +41,7 @@ export default function AjouterOffre() {
   const navigation = useNavigation();
 
   const [depart, setDepart] = useState("Elguettar");
-  const [arrivee, setArrivee] = useState("");
+  const [arrivee, setArrivee] = useState("Metlaoui");
   const [prix, setPrix] = useState("");
   const [places, setPlaces] = useState("");
   const [chauffeurID, setChauffeurID] = useState("");

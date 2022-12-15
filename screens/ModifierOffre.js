@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import {
   View,
   Text,
@@ -7,9 +7,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { db, auth } from "../firebase";
+import { db} from "../firebase";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { Picker } from '@react-native-picker/picker';
 
 export default function ModifierOffre({ route, navigation }) {
   const { offr } = route.params;
@@ -17,7 +18,6 @@ export default function ModifierOffre({ route, navigation }) {
   const [datePicker, setDatePicker] = useState(false);
   const [date, setDate] = useState(new Date(offr.data().date.seconds * 1000));
   const [timePicker, setTimePicker] = useState(false);
-  // à corriger
   const [time, setTime] = useState(new Date(offr.data().heure.seconds * 1000));
 
   function showDatePicker() {
@@ -75,11 +75,18 @@ export default function ModifierOffre({ route, navigation }) {
   };
 
   const s = require("../styles/Style");
-
+  
+  const region = [
+    { label: "Elguettar", value: "Elguettar" },
+    { label: "Metlaoui", value: "Metlaoui" },
+    { label: "Salakta", value: "Salakta" },
+    { label: "Tunis", value: "Tunis" },
+  ];
   return (
     <View style={styles.container}>
       <View style={styles.inputView}>
-        <View style={styles.inputlabel}>
+
+        {/* <View style={styles.inputlabel}>
           <Text style={styles.TextLabel}>Depart: </Text>
           <TextInput
             style={styles.inputText}
@@ -88,8 +95,40 @@ export default function ModifierOffre({ route, navigation }) {
             value={depart}
             onChangeText={(text) => setDepart(text)}
           />
-        </View>
-        <View style={styles.inputlabel}>
+        </View> */}
+
+        <Picker
+            style={styles.inputText}
+            selectedValue={depart}
+            mode="dropdown"
+            onValueChange={(itemValue, itemIndex) =>
+              setDepart(itemValue)
+            }>
+            {region.filter((item) => item.value !== arrivee).
+            map((item, index) => {
+              return (
+                <Picker.Item label={item.label} value={item.value} key={index} />
+              )
+            }
+            )}
+
+          </Picker>
+
+        <Picker
+            style={styles.inputText}
+            selectedValue={arrivee}
+            mode="dropdown"
+            onValueChange={(itemValue, itemIndex) =>
+              setArrivee(itemValue)
+            }>
+            {region.filter((item) => item.value !== depart).map((item, index) => {
+              return (
+                <Picker.Item label={item.label} value={item.value} key={index} />
+              )
+            }
+            )}
+          </Picker>
+        {/* <View style={styles.inputlabel}>
           <Text style={styles.TextLabel}>Destination : </Text>
           <TextInput
             style={styles.inputText}
@@ -98,7 +137,8 @@ export default function ModifierOffre({ route, navigation }) {
             value={arrivee}
             onChangeText={(text) => setArrivee(text)}
           />
-        </View>
+        </View> */}
+
         {/* date */}
 
         {datePicker && (
