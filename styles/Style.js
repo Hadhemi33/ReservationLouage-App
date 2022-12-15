@@ -170,7 +170,8 @@ module.exports = StyleSheet.create({
   buttonTextInscrit: {
     textAlign: "center",
 
-    color: "white",
+    color: "black",
+
     fontWeight: "700",
     fontSize: 18,
   },

@@ -8,20 +8,19 @@ export default function Accueil() {
   const s = require('../styles/Style')
   const navigation = useNavigation()
 
+  const handleLogout = () => {
+    auth
+      .signOut()
+      .then(() => {
+        navigation.replace("Home");
+        console.log("user logged out");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged((user) => {
-  //     if (user.emailVerified) {
 
-  //       navigation.replace("Accueil");
-  //     }
-  //     else {
-  //       navigation.replace("validationsuccess");
-  //     }
-  //   });
-  //   return unsubscribe;
-  // }, [reload]);
-  // const[ reload, setReleoad] = React.useState(false)
   const handleEnv = () => {
     auth.currentUser.reload().then(() => {
       if (auth.currentUser.emailVerified) {
@@ -58,6 +57,9 @@ export default function Accueil() {
           <Text style={style.buttonTextEnvoyer}>Passer</Text>
         </TouchableOpacity>
       </View>
+      <TouchableOpacity onPress={handleLogout} style={style.buttonEnvoyer}>
+          <Text style={style.buttonTextInscrit}>Déconnexion </Text>
+        </TouchableOpacity>
 
 
     </View>
@@ -65,9 +67,22 @@ export default function Accueil() {
 }
 
 const style = StyleSheet.create({
+  buttnContainer: {
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "80%",
+  },
+
+  buttonTextInscrit: {
+    color: "#71A3A3",
+    fontSize: 18,
+    right: -90,
+    marginBottom: 5,
+    width: "60%",
+  },
   buttonEnvoyer0: {
-    backgroundColor: '#2DBDBD',
-    width: "40%",
+    backgroundColor: "#2DBDBD",
+    width: "60%",
     padding: 10,
     borderRadius: 10,
     height: 50,
@@ -75,6 +90,8 @@ const style = StyleSheet.create({
     alignItems: 'center',
     left: 90,
     marginTop: 40,
+    marginBottom: 10,
+
   },
   buttonTextEnvoyer: {
 

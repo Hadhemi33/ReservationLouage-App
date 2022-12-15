@@ -27,7 +27,7 @@ export default function Home() {
     alert("ConnecterGoogle");
   };
   const handlePasser = () => {
-    navigation.navigate("Accueil");
+    navigation.replace("Accueil");
   };
   return (
     <View style={s.container}>

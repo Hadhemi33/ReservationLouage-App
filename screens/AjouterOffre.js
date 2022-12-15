@@ -22,13 +22,18 @@ export default function AjouterOffre() {
   const [timePicker, setTimePicker] = useState(false);
   const [time, setTime] = useState(new Date(Date.now()));
 
+  const [timeArriveePicker, setTimeArriveePicker] = useState(false);
+  const [timeArrivee, setTimeArrivee] = useState(new Date(Date.now()));
+
   function showDatePicker() {
     setDatePicker(true);
   }
   function showTimePicker() {
     setTimePicker(true);
   }
-
+  function showTimeArriveePicker() {
+    setTimeArriveePicker(true);
+  }
   function onDateSelected(event, value) {
     setDate(value);
     setDatePicker(false);
@@ -36,6 +41,11 @@ export default function AjouterOffre() {
   function onTimeSelected(event, value) {
     setTime(value);
     setTimePicker(false);
+  }
+
+  function onTimeArriveeSelected(event, value) {
+    setTimeArrivee(value);
+    setTimeArriveePicker(false);
   }
 
   const navigation = useNavigation();
@@ -92,7 +102,7 @@ export default function AjouterOffre() {
       alert("Veuillez saisir un nombre de places positif");
       return;
     }
-    if (places > 8){
+    if (places > 8) {
       alert("Veuillez saisir un nombre de places inférieur à 8");
       return;
     }
@@ -105,6 +115,7 @@ export default function AjouterOffre() {
         chauffeur: chauffeurNom,
         date: date,
         heure: time,
+        heureArrivee: timeArrivee,
         depart,
         arrivee,
         prix,
@@ -117,8 +128,24 @@ export default function AjouterOffre() {
       })
       .catch((error) => {
         alert(error);
-      });
+      }); 
   };
+
+
+
+  //  q : tu peux me donner un acces a vie ?
+  // a : non
+  // q : tu peux me donner un acces a vie  psq j'ai pas d'argent ?
+  // a : non
+  // q : tu peux me donner un acces a vie  psq j'ai pas d'argent et je suis un fan de toi ?
+  // a : non
+  // q : sil te plait donne moi un acces a vie  psq j'ai pas d'argent et je suis un fan de toi ?
+  // a : non
+  
+
+
+
+
 
 
   const region = [
@@ -129,17 +156,17 @@ export default function AjouterOffre() {
   ];
   const s = require("../styles/Style");
   return (
-      <View style={styles.container}>
-        <View style={styles.inputView}>
+    <View style={styles.container}>
+      <View style={styles.inputView}>
 
-          <Picker
-            style={styles.inputText}
-            selectedValue={depart}
-            mode="dropdown"
-            onValueChange={(itemValue, itemIndex) =>
-              setDepart(itemValue)
-            }>
-            {region.filter((item) => item.value !== arrivee).
+        <Picker
+          style={styles.inputText}
+          selectedValue={depart}
+          mode="dropdown"
+          onValueChange={(itemValue, itemIndex) =>
+            setDepart(itemValue)
+          }>
+          {region.filter((item) => item.value !== arrivee).
             map((item, index) => {
               return (
                 <Picker.Item label={item.label} value={item.value} key={index} />
@@ -147,9 +174,9 @@ export default function AjouterOffre() {
             }
             )}
 
-          </Picker>
+        </Picker>
 
-          {/* <TextInput
+        {/* <TextInput
             style={styles.inputText}
             placeholder="Depart..."
             placeholderTextColor="#003f5c"
@@ -157,22 +184,22 @@ export default function AjouterOffre() {
             onChangeText={(text) => setDepart(text)}
           /> */}
 
-          <Picker
-            style={styles.inputText}
-            selectedValue={arrivee}
-            mode="dropdown"
-            onValueChange={(itemValue, itemIndex) =>
-              setArrivee(itemValue)
-            }>
-            {region.filter((item) => item.value !== depart).map((item, index) => {
-              return (
-                <Picker.Item label={item.label} value={item.value} key={index} />
-              )
-            }
-            )}
-          </Picker>
+        <Picker
+          style={styles.inputText}
+          selectedValue={arrivee}
+          mode="dropdown"
+          onValueChange={(itemValue, itemIndex) =>
+            setArrivee(itemValue)
+          }>
+          {region.filter((item) => item.value !== depart).map((item, index) => {
+            return (
+              <Picker.Item label={item.label} value={item.value} key={index} />
+            )
+          }
+          )}
+        </Picker>
 
-          {/* <TextInput
+        {/* <TextInput
             style={styles.inputText}
             placeholder="Destination..."
             placeholderTextColor="#003f5c"
@@ -180,94 +207,126 @@ export default function AjouterOffre() {
             onChangeText={(text) => setArrivee(text)}
           /> */}
 
-          {/* date */}
-          {datePicker && (
-            <DateTimePicker
-              value={date}
-              mode={"date"}
-              display={ "default"}
-              is24Hour={true}
-              onChange={onDateSelected}
-              minimumDate={new Date()}
-              maximumDate={new Date(2023, 11, 31)}
-              style={styles.datePicker}
-            />
-          )}
-          {!datePicker && (
-            <View style={{ margin: 10 }}>
-              <TouchableOpacity
-                title="Show Date Picker"
-                conPress={showDatePicker}
-              />
-            </View>
-          )}
-          <TouchableOpacity onPress={showDatePicker}>
-            <Text
-              style={styles.inputText}
-              placeholder="Date..."
-              placeholderTextColor="#003f5c"
-            >
-              {date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}
-            </Text>
-          </TouchableOpacity>
-
-          {/* Heure */}
-          {timePicker && (
-            <DateTimePicker
-              value={time}
-              mode={"time"}
-              display={ "default"}
-              is24Hour={false}
-              onChange={onTimeSelected}
-              minuteInterval={5}
-              style={styles.datePicker}
-            />
-          )}
-          {!timePicker && (
-            <View style={{ margin: 10 }}>
-              <TouchableOpacity
-                title="Show Time Picker"
-                color="green"
-                onPress={showTimePicker}
-              />
-            </View>
-          )}
-          <TouchableOpacity onPress={showTimePicker}>
-            <Text
-              style={styles.inputText}
-              placeholder="Heure..."
-              placeholderTextColor="#003f5c"
-            >
-              {time.getHours()}:{time.getMinutes()}
-            </Text>
-          </TouchableOpacity>
-
-          <TextInput
-            style={styles.inputText}
-            placeholder="Prix..."
-            placeholderTextColor="#003f5c"
-            value={prix}
-            keyboardType="numeric"
-            onChangeText={(text) => setPrix(text)}
+        {/* date */}
+        {datePicker && (
+          <DateTimePicker
+            value={date}
+            mode={"date"}
+            display={"default"}
+            is24Hour={true}
+            onChange={onDateSelected}
+            minimumDate={new Date()}
+            maximumDate={new Date(2023, 11, 31)}
+            style={styles.datePicker}
           />
-
-          <TextInput
-            required
+        )}
+        {!datePicker && (
+          <View style={{ margin: 10 }}>
+            <TouchableOpacity
+              title="Show Date Picker"
+              conPress={showDatePicker}
+            />
+          </View>
+        )}
+        <TouchableOpacity onPress={showDatePicker}>
+          <Text
             style={styles.inputText}
-            placeholder="Nombre des places"
+            placeholder="Date..."
             placeholderTextColor="#003f5c"
-            value={places}
-            keyboardType="numeric"
-            onChangeText={(text) => setPlaces(text)}
-          />
-        </View>
-
-        <TouchableOpacity onPress={handleAdd} style={s.buttonInscrit}>
-          <Text style={s.buttonTextInscrit}>Publier </Text>
+          >
+            {date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}
+          </Text>
         </TouchableOpacity>
 
+        {/* Heure */}
+        {timePicker && (
+          <DateTimePicker
+            value={time}
+            mode={"time"}
+            display={"default"}
+            is24Hour={false}
+            onChange={onTimeSelected}
+            minuteInterval={5}
+            style={styles.datePicker}
+          />
+        )}
+        {!timePicker && (
+          <View style={{ margin: 10 }}>
+            <TouchableOpacity
+              title="Show Time Picker"
+              color="green"
+              onPress={showTimePicker}
+            />
+          </View>
+        )}
+        <TouchableOpacity onPress={showTimePicker}>
+          <Text
+            style={styles.inputText}
+            placeholder="Heure..."
+            placeholderTextColor="#003f5c"
+          >
+            {time.getHours()}:{time.getMinutes()}
+          </Text>
+        </TouchableOpacity>
 
+        {/* Heure d'arrivée */}
+
+        {timeArriveePicker && (
+          <DateTimePicker
+            value={timeArrivee}
+            mode={"time"}
+            display={"default"}
+            is24Hour={false}
+            minuteInterval={5}
+            onChange={onTimeArriveeSelected}
+            style={styles.datePicker}
+          />
+        )}
+        {!timeArriveePicker && (
+          <View style={{ margin: 10 }}>
+            <TouchableOpacity
+              title="Show Time Picker"
+              color="green"
+              onPress={showTimeArriveePicker}
+            />
+          </View>
+        )}
+        <TouchableOpacity   onPress={showTimeArriveePicker}>
+          <Text
+            style={styles.inputText}
+            placeholder="Heure Depart"
+            placeholderTextColor="#003f5c"
+          >
+            {timeArrivee.getHours()}:{timeArrivee.getMinutes()}
+          </Text>
+        </TouchableOpacity>
+
+        <TextInput
+          style={styles.inputText}
+          placeholder="Prix..."
+          placeholderTextColor="#003f5c"
+          value={prix}
+          keyboardType="numeric"
+          onChangeText={(text) => setPrix(text)}
+        />
+
+        <TextInput
+          required
+          style={styles.inputText}
+          placeholder="Nombre des places"
+          placeholderTextColor="#003f5c"
+          value={places}
+          keyboardType="numeric"
+          onChangeText={(text) => setPlaces(text)}
+        />
       </View>
+
+      <TouchableOpacity onPress={handleAdd} style={s.buttonInscrit}>
+        <Text style={s.buttonTextInscrit}>Publier </Text>
+      </TouchableOpacity>
+
+
+    </View>
   );
 }
 const styles = StyleSheet.create({

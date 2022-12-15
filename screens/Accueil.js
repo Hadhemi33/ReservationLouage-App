@@ -135,9 +135,9 @@ export default function Accueil() {
               <Text style={styles.textFiltre}>Mes réservation </Text>
             </TouchableOpacity>
           )}
-          <View style={styles.filtreOffre}>
-            <MaterialIcons style={styles.addIcon} name="add-circle" />
-            {user?.role == "chauffeur" && (
+          {user?.role == "chauffeur" && (
+            <View style={styles.filtreOffre}>
+              <MaterialIcons style={styles.addIcon} name="add-circle" />
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate("AjouterOffre");
@@ -145,8 +145,8 @@ export default function Accueil() {
               >
                 <Text style={styles.textFiltre}>Ajouter un trajet </Text>
               </TouchableOpacity>
-            )}
-          </View>
+            </View>
+          )}
         </View>
       </View>
 
@@ -154,12 +154,7 @@ export default function Accueil() {
       <View style={styles.bloc1}>
         {/* ////////////////////////////////////////////////////////// */}
         <ScrollView style={styles.scrollView}>
-          <View style={styles.connect}>
-            <MaterialIcons style={styles.iconBack} name="arrow-back" />
-            <TouchableOpacity onPress={handleConnecter}>
-              <Text style={styles.Textconnect}>Retour</Text>
-            </TouchableOpacity>
-          </View>
+
 
           {!loading ? (
             offres
@@ -225,7 +220,9 @@ export default function Accueil() {
                       />
 
                       <Text style={styles.textDepart}>
-                        {/* a ajouter */}
+                      {new Date(off.data().heureArrivee?.seconds * 1000).getHours()}:
+                        {new Date(off.data().heureArrivee?.seconds * 1000).getMinutes()}
+
                       </Text>
                     </View>
 

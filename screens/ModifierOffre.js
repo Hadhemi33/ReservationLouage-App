@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { db} from "../firebase";
+import { db } from "../firebase";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from '@react-native-picker/picker';
@@ -17,14 +17,22 @@ export default function ModifierOffre({ route, navigation }) {
 
   const [datePicker, setDatePicker] = useState(false);
   const [date, setDate] = useState(new Date(offr.data().date.seconds * 1000));
+
   const [timePicker, setTimePicker] = useState(false);
   const [time, setTime] = useState(new Date(offr.data().heure.seconds * 1000));
+
+
+  const [timeArriveePicker, setTimeArriveePicker] = useState(false);
+  const [timeArrivee, setTimeArrivee] = useState(new Date(offr.data().heureArrivee.seconds * 1000));
 
   function showDatePicker() {
     setDatePicker(true);
   }
   function showTimePicker() {
     setTimePicker(true);
+  }
+  function showTimeArriveePicker() {
+    setTimeArriveePicker(true);
   }
 
   function onDateSelected(event, value) {
@@ -34,6 +42,10 @@ export default function ModifierOffre({ route, navigation }) {
   function onTimeSelected(event, value) {
     setTime(value);
     setTimePicker(false);
+  }
+  function onTimeArriveeSelected(event, value) {
+    setTimeArrivee(value);
+    setTimeArriveePicker(false);
   }
 
   const [depart, setDepart] = useState(offr.data().depart);
@@ -47,6 +59,7 @@ export default function ModifierOffre({ route, navigation }) {
       .update({
         date: date,
         heure: time,
+        heureArrive: timeArrivee,
         depart: depart,
         arrivee: arrivee,
         prix: prix,
@@ -75,7 +88,7 @@ export default function ModifierOffre({ route, navigation }) {
   };
 
   const s = require("../styles/Style");
-  
+
   const region = [
     { label: "Elguettar", value: "Elguettar" },
     { label: "Metlaoui", value: "Metlaoui" },
@@ -98,13 +111,13 @@ export default function ModifierOffre({ route, navigation }) {
         </View> */}
 
         <Picker
-            style={styles.inputText}
-            selectedValue={depart}
-            mode="dropdown"
-            onValueChange={(itemValue, itemIndex) =>
-              setDepart(itemValue)
-            }>
-            {region.filter((item) => item.value !== arrivee).
+          style={styles.inputText}
+          selectedValue={depart}
+          mode="dropdown"
+          onValueChange={(itemValue, itemIndex) =>
+            setDepart(itemValue)
+          }>
+          {region.filter((item) => item.value !== arrivee).
             map((item, index) => {
               return (
                 <Picker.Item label={item.label} value={item.value} key={index} />
@@ -112,22 +125,22 @@ export default function ModifierOffre({ route, navigation }) {
             }
             )}
 
-          </Picker>
+        </Picker>
 
         <Picker
-            style={styles.inputText}
-            selectedValue={arrivee}
-            mode="dropdown"
-            onValueChange={(itemValue, itemIndex) =>
-              setArrivee(itemValue)
-            }>
-            {region.filter((item) => item.value !== depart).map((item, index) => {
-              return (
-                <Picker.Item label={item.label} value={item.value} key={index} />
-              )
-            }
-            )}
-          </Picker>
+          style={styles.inputText}
+          selectedValue={arrivee}
+          mode="dropdown"
+          onValueChange={(itemValue, itemIndex) =>
+            setArrivee(itemValue)
+          }>
+          {region.filter((item) => item.value !== depart).map((item, index) => {
+            return (
+              <Picker.Item label={item.label} value={item.value} key={index} />
+            )
+          }
+          )}
+        </Picker>
         {/* <View style={styles.inputlabel}>
           <Text style={styles.TextLabel}>Destination : </Text>
           <TextInput
@@ -145,7 +158,7 @@ export default function ModifierOffre({ route, navigation }) {
           <DateTimePicker
             value={date}
             mode={"date"}
-            display= {"default"}
+            display={"default"}
             is24Hour={true}
             onChange={onDateSelected}
             minimumDate={new Date()}
@@ -166,7 +179,6 @@ export default function ModifierOffre({ route, navigation }) {
           <Text style={styles.TextLabel}>Date : </Text>
           <TouchableOpacity onPress={showDatePicker}>
             <Text
-              style={styles.inputText}
               placeholder="Date..."
               placeholderTextColor="#003f5c"
             >
@@ -180,10 +192,10 @@ export default function ModifierOffre({ route, navigation }) {
           <DateTimePicker
             value={time}
             mode={"time"}
-            display={ "default"}
+            display={"default"}
             is24Hour={false}
             onChange={onTimeSelected}
-              minuteInterval={5}
+            minuteInterval={5}
             style={styles.datePicker}
           />
         )}
@@ -200,7 +212,6 @@ export default function ModifierOffre({ route, navigation }) {
           <Text style={styles.TextLabel}>Heure: </Text>
           <TouchableOpacity onPress={showTimePicker}>
             <Text
-              style={styles.inputText}
               placeholder="Heure..."
               placeholderTextColor="#003f5c"
             >
@@ -208,6 +219,41 @@ export default function ModifierOffre({ route, navigation }) {
             </Text>
           </TouchableOpacity>
         </View>
+
+        {/* Heure d'arrivée */}
+
+        {timeArriveePicker && (
+          <DateTimePicker
+            value={timeArrivee}
+            mode={"time"}
+            display={"default"}
+            is24Hour={false}
+            minuteInterval={5}
+            onChange={onTimeArriveeSelected}
+            style={styles.datePicker}
+          />
+        )}
+        {!timeArriveePicker && (
+          <View style={{ margin: 10 }}>
+            <TouchableOpacity
+              title="Show Time Picker"
+              color="green"
+              onPress={showTimeArriveePicker}
+            />
+          </View>
+        )}
+        <View style={styles.inputlabel}>
+          <Text style={styles.TextLabel}>Heure d'arrivée: </Text>
+          <TouchableOpacity onPress={showTimeArriveePicker}>
+            <Text
+              placeholder="Heure Depart"
+              placeholderTextColor="#003f5c"
+            >
+              {timeArrivee.getHours()}:{timeArrivee.getMinutes()}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
         <View style={styles.inputlabel}>
           <Text style={styles.TextLabel}>Prix : </Text>
 
@@ -259,7 +305,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderRadius: 10,
     borderWidth: 1,
-    marginTop: 5,
     marginBottom: 15,
     alignItems: "center",
   },
