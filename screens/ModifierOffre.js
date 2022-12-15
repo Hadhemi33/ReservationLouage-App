@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,24 +7,32 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { db, auth } from "../firebase";
+import { db } from "../firebase";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { Picker } from '@react-native-picker/picker';
 
 export default function ModifierOffre({ route, navigation }) {
   const { offr } = route.params;
 
   const [datePicker, setDatePicker] = useState(false);
-  const [date, setDate] = useState(new Date(offr.data().date));
+  const [date, setDate] = useState(new Date(offr.data().date.seconds * 1000));
+
   const [timePicker, setTimePicker] = useState(false);
-  // à corriger
-  const [time, setTime] = useState(new Date(Date.now()));
+  const [time, setTime] = useState(new Date(offr.data().heure.seconds * 1000));
+
+
+  const [timeArriveePicker, setTimeArriveePicker] = useState(false);
+  const [timeArrivee, setTimeArrivee] = useState(new Date(offr.data().heureArrivee.seconds * 1000));
 
   function showDatePicker() {
     setDatePicker(true);
   }
   function showTimePicker() {
     setTimePicker(true);
+  }
+  function showTimeArriveePicker() {
+    setTimeArriveePicker(true);
   }
 
   function onDateSelected(event, value) {
@@ -34,6 +42,10 @@ export default function ModifierOffre({ route, navigation }) {
   function onTimeSelected(event, value) {
     setTime(value);
     setTimePicker(false);
+  }
+  function onTimeArriveeSelected(event, value) {
+    setTimeArrivee(value);
+    setTimeArriveePicker(false);
   }
 
   const [depart, setDepart] = useState(offr.data().depart);
@@ -45,13 +57,9 @@ export default function ModifierOffre({ route, navigation }) {
     db.collection("offres")
       .doc(offr.id)
       .update({
-        date:
-          date.getDate() +
-          "/" +
-          (date.getMonth() + 1) +
-          "/" +
-          date.getFullYear(),
-        heure: time.getHours() + ":" + time.getMinutes(),
+        date: date,
+        heure: time,
+        heureArrive: timeArrivee,
         depart: depart,
         arrivee: arrivee,
         prix: prix,
@@ -81,10 +89,17 @@ export default function ModifierOffre({ route, navigation }) {
 
   const s = require("../styles/Style");
 
+  const region = [
+    { label: "Elguettar", value: "Elguettar" },
+    { label: "Metlaoui", value: "Metlaoui" },
+    { label: "Salakta", value: "Salakta" },
+    { label: "Tunis", value: "Tunis" },
+  ];
   return (
     <View style={styles.container}>
       <View style={styles.inputView}>
-        <View style={styles.inputlabel}>
+
+        {/* <View style={styles.inputlabel}>
           <Text style={styles.TextLabel}>Depart: </Text>
           <TextInput
             style={styles.inputText}
@@ -93,8 +108,40 @@ export default function ModifierOffre({ route, navigation }) {
             value={depart}
             onChangeText={(text) => setDepart(text)}
           />
-        </View>
-        <View style={styles.inputlabel}>
+        </View> */}
+
+        <Picker
+          style={styles.inputText}
+          selectedValue={depart}
+          mode="dropdown"
+          onValueChange={(itemValue, itemIndex) =>
+            setDepart(itemValue)
+          }>
+          {region.filter((item) => item.value !== arrivee).
+            map((item, index) => {
+              return (
+                <Picker.Item label={item.label} value={item.value} key={index} />
+              )
+            }
+            )}
+
+        </Picker>
+
+        <Picker
+          style={styles.inputText}
+          selectedValue={arrivee}
+          mode="dropdown"
+          onValueChange={(itemValue, itemIndex) =>
+            setArrivee(itemValue)
+          }>
+          {region.filter((item) => item.value !== depart).map((item, index) => {
+            return (
+              <Picker.Item label={item.label} value={item.value} key={index} />
+            )
+          }
+          )}
+        </Picker>
+        {/* <View style={styles.inputlabel}>
           <Text style={styles.TextLabel}>Destination : </Text>
           <TextInput
             style={styles.inputText}
@@ -103,16 +150,20 @@ export default function ModifierOffre({ route, navigation }) {
             value={arrivee}
             onChangeText={(text) => setArrivee(text)}
           />
-        </View>
+        </View> */}
+
         {/* date */}
 
         {datePicker && (
           <DateTimePicker
             value={date}
             mode={"date"}
-            display={Platform.OS === "ios" ? "spinner" : "default"}
+            display={"default"}
             is24Hour={true}
             onChange={onDateSelected}
+            minimumDate={new Date()}
+            maximumDate={new Date(2023, 11, 31)}
+
             style={styles.datePicker}
           />
         )}
@@ -128,7 +179,6 @@ export default function ModifierOffre({ route, navigation }) {
           <Text style={styles.TextLabel}>Date : </Text>
           <TouchableOpacity onPress={showDatePicker}>
             <Text
-              style={styles.inputText}
               placeholder="Date..."
               placeholderTextColor="#003f5c"
             >
@@ -142,9 +192,10 @@ export default function ModifierOffre({ route, navigation }) {
           <DateTimePicker
             value={time}
             mode={"time"}
-            display={Platform.OS === "ios" ? "spinner" : "default"}
+            display={"default"}
             is24Hour={false}
             onChange={onTimeSelected}
+            minuteInterval={5}
             style={styles.datePicker}
           />
         )}
@@ -161,7 +212,6 @@ export default function ModifierOffre({ route, navigation }) {
           <Text style={styles.TextLabel}>Heure: </Text>
           <TouchableOpacity onPress={showTimePicker}>
             <Text
-              style={styles.inputText}
               placeholder="Heure..."
               placeholderTextColor="#003f5c"
             >
@@ -169,6 +219,41 @@ export default function ModifierOffre({ route, navigation }) {
             </Text>
           </TouchableOpacity>
         </View>
+
+        {/* Heure d'arrivée */}
+
+        {timeArriveePicker && (
+          <DateTimePicker
+            value={timeArrivee}
+            mode={"time"}
+            display={"default"}
+            is24Hour={false}
+            minuteInterval={5}
+            onChange={onTimeArriveeSelected}
+            style={styles.datePicker}
+          />
+        )}
+        {!timeArriveePicker && (
+          <View style={{ margin: 10 }}>
+            <TouchableOpacity
+              title="Show Time Picker"
+              color="green"
+              onPress={showTimeArriveePicker}
+            />
+          </View>
+        )}
+        <View style={styles.inputlabel}>
+          <Text style={styles.TextLabel}>Heure d'arrivée: </Text>
+          <TouchableOpacity onPress={showTimeArriveePicker}>
+            <Text
+              placeholder="Heure Depart"
+              placeholderTextColor="#003f5c"
+            >
+              {timeArrivee.getHours()}:{timeArrivee.getMinutes()}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
         <View style={styles.inputlabel}>
           <Text style={styles.TextLabel}>Prix : </Text>
 
@@ -177,6 +262,8 @@ export default function ModifierOffre({ route, navigation }) {
             placeholder="Prix..."
             placeholderTextColor="#003f5c"
             value={prix}
+            keyboardType="numeric"
+
             onChangeText={(text) => setPrix(text)}
           />
         </View>
@@ -188,6 +275,8 @@ export default function ModifierOffre({ route, navigation }) {
             placeholder="Nombre des places"
             placeholderTextColor="#003f5c"
             value={places}
+            keyboardType="numeric"
+
             onChangeText={(text) => setPlaces(text)}
           />
         </View>
@@ -216,7 +305,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderRadius: 10,
     borderWidth: 1,
-    marginTop: 5,
     marginBottom: 15,
     alignItems: "center",
   },

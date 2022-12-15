@@ -7,26 +7,39 @@ import {
   View,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { auth, db } from "../firebase";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/core";
+import Menu from "./Menu";
 
-export default function App({ route, navigation }) {
-  const { userr } = route.params;
-  // const navigation = useNavigation()
+export default function App() {
+  const [user, setUser] = useState(null);
+  const navigation = useNavigation();
   const s = require("../styles/Style");
-  const [nom, setNom] = useState(userr?.data().nom);
-  const [prenom, setPrenom] = useState(userr?.data().prenom);
-  const [cin, setCin] = useState(userr?.data().cin);
-  const [numTel, setNumTel] = useState(userr?.data().numerodetelephone);
-  const [IdentifiantUnique, setIdentifiantUnique] = useState(
-    userr?.data().Identifiantunique
-  );
+  const [nom, setNom] = useState("");
+  const [prenom, setPrenom] = useState("");
+  const [cin, setCin] = useState("");
+  const [numTel, setNumTel] = useState("");
+  const [IdentifiantUnique, setIdentifiantUnique] = useState("");
+
+  useEffect(() => {
+    db.collection("users").doc(auth.currentUser.uid).get().then((doc) => {
+      console.log("Document data:", doc.data());
+      setUser(doc)
+      setNom(doc.data().nom) ;
+      setPrenom(doc.data().prenom) ;
+      setCin(doc.data().cin) ;
+      setNumTel(doc.data().numerodetelephone) ;
+      setIdentifiantUnique(doc.data().Identifiantunique? doc.data().Identifiantunique : "" ) ;
+    });
+  }, []);
+
+
   const handleMetreAJour = () => {
-    if (userr.data().role == "chauffeur") {
+    if (user.data().role == "chauffeur") {
       db.collection("users")
-        .doc(userr.id)
+        .doc(user.id)
         .update({
           nom: nom,
           prenom: prenom,
@@ -42,7 +55,7 @@ export default function App({ route, navigation }) {
         });
     } else {
       db.collection("users")
-        .doc(userr.id)
+        .doc(user.id)
         .update({
           nom: nom,
           prenom: prenom,
@@ -89,8 +102,8 @@ export default function App({ route, navigation }) {
       .then(() => {
         alert(
           "Vous avez récu un mail sur " +
-            auth.currentUser.email +
-            " pour reintialiser le mot de passe"
+          auth.currentUser.email +
+          " pour reintialiser le mot de passe"
         );
       })
       .catch((error) => {
@@ -125,9 +138,19 @@ export default function App({ route, navigation }) {
       <View style={styles.blok}>
         <Text style={styles.textchange}> Changer vos informations ! </Text>
       </View>
+
+      {/* Pour que lorsque on click sur l'icon de edit tt7alena l input edhika 
+      :
+      1/ na7ou  touchableopacity 3la l icon 
+      2/ w ba3ed n7oto licon fo9 l input
+      3/ ba3ed f css na3toha position absolute w right 0 bch tched limin blkol 
+
+       */}
       <View style={styles.inputlabel}>
         <Text style={styles.TextLabel}>Nom: </Text>
         <View style={styles.inputView}>
+          <Icon style={styles.inputIcon} name="edit" size={24} color="red" />
+
           <TextInput
             style={styles.TextInput}
             placeholder="Nom"
@@ -135,14 +158,12 @@ export default function App({ route, navigation }) {
             value={nom}
             onChangeText={(nom) => setNom(nom)}
           />
-          <TouchableOpacity>
-            <Icon style={styles.inputIcon} name="edit" size={24} color="red" />
-          </TouchableOpacity>
         </View>
       </View>
       <View style={styles.inputlabel}>
         <Text style={styles.TextLabel}>Prénom: </Text>
         <View style={styles.inputView}>
+          <Icon style={styles.inputIcon} name="edit" size={24} color="red" />
           <TextInput
             style={styles.TextInput}
             placeholder="Prénom"
@@ -150,13 +171,13 @@ export default function App({ route, navigation }) {
             value={prenom}
             onChangeText={(text) => setPrenom(text)}
           />
-          <TouchableOpacity>
-            <Icon style={styles.inputIcon} name="edit" size={24} color="red" />
-          </TouchableOpacity>
+
         </View>
       </View>
       <View style={styles.inputlabel}>
         <Text style={styles.TextLabel}>CIN: </Text>
+        <Icon style={styles.inputIcon} name="edit" size={24} color="red" />
+
         <View style={styles.inputView}>
           <TextInput
             style={styles.TextInput}
@@ -165,14 +186,13 @@ export default function App({ route, navigation }) {
             value={cin}
             onChangeText={(text) => setCin(text)}
           />
-          <TouchableOpacity>
-            <Icon style={styles.inputIcon} name="edit" size={24} color="red" />
-          </TouchableOpacity>
+
         </View>
       </View>
       <View style={styles.inputlabel}>
         <Text style={styles.TextLabel}>Num: </Text>
         <View style={styles.inputView}>
+          <Icon style={styles.inputIcon} name="edit" size={24} color="red" />
           <TextInput
             style={styles.TextInput}
             placeholder="Numéro de téléphone"
@@ -180,15 +200,14 @@ export default function App({ route, navigation }) {
             value={numTel}
             onChangeText={(text) => setNumTel(text)}
           />
-          <TouchableOpacity>
-            <Icon style={styles.inputIcon} name="edit" size={24} color="red" />
-          </TouchableOpacity>
         </View>
       </View>
-      {userr?.data().role === "chauffeur" && (
+      {user?.data().role === "chauffeur" && (
         <View style={styles.inputlabel}>
           <Text style={styles.TextLabel}>Id: </Text>
           <View style={styles.inputView}>
+            <Icon style={styles.inputIcon} name="edit" size={24} color="red" />
+
             <TextInput
               style={styles.TextInput}
               placeholder="Identifiant unique"
@@ -196,14 +215,6 @@ export default function App({ route, navigation }) {
               value={IdentifiantUnique}
               onChangeText={(text) => setIdentifiantUnique(text)}
             />
-            <TouchableOpacity>
-              <Icon
-                style={styles.inputIcon}
-                name="edit"
-                size={24}
-                color="red"
-              />
-            </TouchableOpacity>
           </View>
         </View>
       )}
@@ -298,10 +309,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     height: 50,
     color: "black",
-    width: "80%",
+    width: "100%",
   },
   inputIcon: {
     width: 40,
+    position: "absolute",
+    right: 0,
+
     fontSize: 30,
     color: "#71A3A3",
     opacity: 0.5,

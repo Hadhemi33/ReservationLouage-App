@@ -171,6 +171,7 @@ module.exports = StyleSheet.create({
     textAlign: "center",
 
     color: "black",
+
     fontWeight: "700",
     fontSize: 18,
   },

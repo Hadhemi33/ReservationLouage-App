@@ -11,8 +11,11 @@ import {
 } from "react-native";
 import { auth } from "../firebase";
 export default function Accueil() {
-  const s = require("../styles/Style");
-  const navigation = useNavigation();
+
+  const s = require('../styles/Style')
+  const navigation = useNavigation()
+
+ 
   const handleLogout = () => {
     auth
       .signOut()
@@ -24,20 +27,8 @@ export default function Accueil() {
         console.log(error.message);
       });
   };
+ 
 
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged((user) => {
-  //     if (user.emailVerified) {
-
-  //       navigation.replace("Accueil");
-  //     }
-  //     else {
-  //       navigation.replace("validationsuccess");
-  //     }
-  //   });
-  //   return unsubscribe;
-  // }, [reload]);
-  // const[ reload, setReleoad] = React.useState(false)
   const handleEnv = () => {
     auth.currentUser.reload().then(() => {
       if (auth.currentUser.emailVerified) {
@@ -75,6 +66,13 @@ export default function Accueil() {
           <Text style={style.buttonTextInscrit}>Déconnexion </Text>
         </TouchableOpacity>
       </View>
+
+      <TouchableOpacity onPress={handleLogout} style={style.buttonEnvoyer}>
+          <Text style={style.buttonTextInscrit}>Déconnexion </Text>
+        </TouchableOpacity>
+
+
+ 
     </View>
   );
 }
@@ -105,6 +103,8 @@ const style = StyleSheet.create({
 
     left: 90,
     marginTop: 40,
+    marginBottom: 10,
+
   },
   buttonTextEnvoyer: {
     color: "white",

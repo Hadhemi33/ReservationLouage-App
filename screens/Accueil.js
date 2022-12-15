@@ -15,6 +15,7 @@ import {
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import "react-native-gesture-handler";
 import Checkbox from "expo-checkbox";
+import Menu from "./Menu";
 
 export default function Accueil() {
   const s = require("../styles/Style");
@@ -22,13 +23,9 @@ export default function Accueil() {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
   const handleMenu = () => {
-    db.collection("users")
-      .doc(auth?.currentUser?.uid)
-      .get()
-      .then((doc) => {
-        setUser(doc.data());
-        navigation.navigate("ChangeInfo", { userr: doc });
-      });
+
+    navigation.navigate("ChangeInfo");
+
   };
 
   const [loading, setLoading] = useState(true);
@@ -169,6 +166,7 @@ export default function Accueil() {
       <View style={styles.bloc1}>
         {/* ////////////////////////////////////////////////////////// */}
         <ScrollView style={styles.scrollView}>
+
           {!loading ? (
             offres
               .filter((offre) => {
@@ -191,7 +189,8 @@ export default function Accueil() {
                   ? offre.data().chauffeurID == user?.Identifiantunique
                   : true;
               })
-              .map((off) => (
+              .map((off) =>
+              (
                 <View style={styles.offre} key={off.id}>
                   <View style={styles.offreheader}>
                     <MaterialIcons
@@ -199,7 +198,13 @@ export default function Accueil() {
                       name="directions-car"
                     ></MaterialIcons>
                     {/* date ili 7atha chauffeur  */}
-                    <Text style={styles.textDate}>{off.data().date}</Text>
+                    <Text style={styles.textDate}>
+
+                      {new Date(off.data().date.seconds * 1000).getDate()}/
+                      {new Date(off.data().date.seconds * 1000).getMonth() + 1}/
+                      {new Date(off.data().date.seconds * 1000).getFullYear()}
+
+                    </Text>
                     <View style={styles.offreChauffeur}>
                       <MaterialIcons
                         style={styles.iconCar}
@@ -210,7 +215,13 @@ export default function Accueil() {
                   </View>
                   <View style={styles.offrebody}>
                     <View style={styles.ligne}>
-                      <Text style={styles.textDepart}>{off.data().heure}</Text>
+                      <Text style={styles.textDepart}>
+
+                        {new Date(off.data().heure.seconds * 1000).getHours()}:
+                        {new Date(off.data().heure.seconds * 1000).getMinutes()}
+
+
+                      </Text>
                       <View
                         style={{
                           flex: 0.75,
@@ -220,7 +231,11 @@ export default function Accueil() {
                       />
 
                       <Text style={styles.textDepart}>
-                        {off.data().heureArrivee}
+
+                      {new Date(off.data().heureArrivee?.seconds * 1000).getHours()}:
+                        {new Date(off.data().heureArrivee?.seconds * 1000).getMinutes()}
+
+ 
                       </Text>
                     </View>
 
@@ -305,6 +320,8 @@ export default function Accueil() {
           )}
         </ScrollView>
       </View>
+      <Menu role={user?.role} />
+
     </View>
   );
 }

@@ -70,7 +70,11 @@ export default function Accueil({ route, navigation }) {
               name="directions-car"
             ></MaterialIcons>
             {/* date ili 7atha chauffeur  */}
-            <Text style={styles.textDate}>{offr.date}</Text>
+            <Text style={styles.textDate}>
+              {new Date(offr.date.seconds * 1000).getDate()}/
+              {new Date(offr.date.seconds * 1000).getMonth() + 1}/
+              {new Date(offr.date.seconds * 1000).getFullYear()}
+            </Text>
           </View>
           <View style={styles.offrefooter}>
             <View style={styles.ligne3}>
@@ -104,12 +108,19 @@ export default function Accueil({ route, navigation }) {
             </View>
           </View>
           <View style={styles.offrebody}>
-            <View style={styles.ligne}>
-              <Text style={styles.textDepart}>{offr.heure}</Text>
+            <View style={styles.ligne}><Text>
+
+              {new Date(offr.heure.seconds * 1000).getHours()}:
+              {new Date(offr.heure.seconds * 1000).getMinutes()}
+            </Text>
               <View
                 style={{ flex: 0.75, height: 1.5, backgroundColor: "black" }}
               />
-              <Text style={styles.textDepart}>{offr.heure}</Text>
+              <Text>
+
+              {new Date(offr.heure.seconds * 1000).getHours()}:
+              {new Date(offr.heure.seconds * 1000).getMinutes()}
+              </Text>
             </View>
 
             <View style={styles.ligne2}>
