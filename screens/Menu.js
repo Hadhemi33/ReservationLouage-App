@@ -11,7 +11,9 @@ const Menu = (props) => {
             {props.role === "chauffeur" &&
                 <TouchableOpacity
                     style={styles.buttonStyle}
-                    onPress={() => navigation.navigate("MesReservation")}>
+                    onPress={() => navigation.navigate("ListReservation",{
+                        role:"chauffeur"
+                    })}>
                     <MaterialIcons style={styles.iconStytle} name="receipt-long"  />
                 </TouchableOpacity>
              }
@@ -19,7 +21,9 @@ const Menu = (props) => {
 
               <TouchableOpacity
                     style={styles.buttonStyle}
-                    onPress={() => navigation.navigate("Meservation")}>
+                    onPress={() => navigation.navigate("ListReservation",{
+                        role:"client"
+                    })}>
                     <MaterialIcons style={styles.iconStytle} name="receipt"  />
                 </TouchableOpacity>
             }

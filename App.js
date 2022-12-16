@@ -23,6 +23,7 @@ import codeVerif from "./screens/codeVerif";
 import ModifierOffre from "./screens/ModifierOffre";
 import { useNavigation } from "@react-navigation/core";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import ListReservation from "./screens/ListReservation";
 const Stack = createNativeStackNavigator();
 
 
@@ -124,6 +125,10 @@ export default function App() {
         <Stack.Screen
           name="ModifierOffre"
           component={ModifierOffre}
+        />
+        <Stack.Screen
+          name="ListReservation"
+          component={ListReservation}
         />
       </Stack.Navigator>
 
