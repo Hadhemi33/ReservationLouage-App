@@ -8,11 +8,11 @@ const Menu = (props) => {
     return (
         <View style={styles.menuContainer}>
 
-            {props.role === "chaufeur" &&
+            {props.role === "chauffeur" &&
                 <TouchableOpacity
                     style={styles.buttonStyle}
                     onPress={() => navigation.navigate("MesReservation")}>
-                    <MaterialIcons style={styles.iconStytle} name="receipt-long" size={24} color="black" />
+                    <MaterialIcons style={styles.iconStytle} name="receipt-long"  />
                 </TouchableOpacity>
              }
             {props.role === "client" &&
@@ -20,15 +20,11 @@ const Menu = (props) => {
               <TouchableOpacity
                     style={styles.buttonStyle}
                     onPress={() => navigation.navigate("Meservation")}>
-                    <MaterialIcons style={styles.iconStytle} name="receipt-long" size={24} color="yellow" />
+                    <MaterialIcons style={styles.iconStytle} name="receipt"  />
                 </TouchableOpacity>
             }
 
-            <TouchableOpacity
-                style={styles.buttonStyle}
-                onPress={() => navigation.navigate("About")}>
-                <MaterialIcons style={styles.iconStytle} name="receipt-long" size={24} color="black" />
-            </TouchableOpacity>
+       
 
             <TouchableOpacity
                 style={styles.buttonStyle}

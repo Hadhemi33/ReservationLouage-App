@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import { auth } from "../firebase";
-import { useNavigation } from "@react-navigation/core";
-import { db } from "../firebase";
 
 import {
   View,
@@ -9,50 +6,127 @@ import {
   Image,
   TouchableOpacity,
   Text,
-  TextInput,
-  ScrollView,
-  SearchBar,
+
 } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { LinearGradient } from "expo-linear-gradient";
+import { icon } from "@fortawesome/fontawesome-svg-core";
 
 export default function Accueil({ route, navigation }) {
   // const navigation = useNavigation();
 
   const { offr } = route.params;
+
   const Test = () => {
-    if (offr.depart == "Salakta" && offr.arrivee == "Tunis") {
-      return (
-        <Image
-          style={styles.image}
-          source={require("../assets/Salakta-Tunis_Maps.jpg")}
-        />
-      );
-    } else if (offr.depart == "Metlaoui" && offr.arrivee == "Tunis") {
-      return (
-        <Image
-          style={styles.image}
-          source={require("../assets/Metlaoui-Tunis_Maps.jpg")}
-        />
-      );
-    } else if (offr.depart == "ElGuettar" && offr.arrivee == "Tunis") {
-      return (
-        <Image
-          style={styles.image}
-          source={require("../assets/Elguitar-Tunis_Maps.jpg")}
-        />
-      );
-    } else {
+    if (offr.depart == "Salakta") {
+      if (offr.arrivee == "Tunis") {
+        return (
+          <Image
+            style={styles.image}
+            source={require("../assets/Salakta-Tunis.jpg")}
+          />
+        );
+      } else if (offr.arrivee == "Elguettar") {
+        return (
+          <Image
+            style={styles.image}
+            source={require("../assets/Salakta-Elguettar.jpg")}
+          />
+        );
+      } else if (offr.arrivee == "Metlaoui") {
+        return (
+          <Image
+            style={styles.image}
+            source={require("../assets/Salakta-Metlaoui.jpg")}
+          />
+        );
+      }
+    }
+    else if (offr.depart == "Metlaoui") {
+      if (offr.arrivee == "Tunis") {
+        return (
+          <Image
+            style={styles.image}
+            source={require("../assets/Metlaoui-Tunis.jpg")}
+          />
+        );
+      } else if (offr.arrivee == "Elguettar") {
+        return (
+          <Image
+            style={styles.image}
+            source={require("../assets/Metlaoui-ELguettar.jpg")}
+          />
+        );
+      } else if (offr.arrivee == "Salakta") {
+        return (
+          <Image
+            style={styles.image}
+            source={require("../assets/Metlaoui-Salakta.jpg")}
+          />
+        );
+      }
+    }
+    else if (offr.depart == "Elguettar") {
+      if (offr.arrivee == "Tunis") {
+        return (
+          <Image
+
+            style={styles.image}
+            source={require("../assets/Elguettar-Tunis.jpg")}
+          />
+        );
+      } else if (offr.arrivee == "Metlaoui") {
+        return (
+          <Image
+            style={styles.image}
+            source={require("../assets/Elguettar-Metlaoui.jpg")}
+          />
+        );
+      } else if (offr.arrivee == "Salakta") {
+        return (
+          <Image
+            style={styles.image}
+            source={require("../assets/Elguettar-Salakta.jpg")}
+          />
+        );
+      }
+    }
+    else if (offr.depart == "Tunis") {
+      if (offr.arrivee == "Elguettar") {
+        return (
+          <Image
+            style={styles.image}
+            source={require("../assets/Tunis-Elguettar.jpg")}
+          />
+        );
+      } else if (offr.arrivee == "Metlaoui") {
+        return (
+          <Image
+            style={styles.image}
+            source={require("../assets/Tunis-Metlaoui.jpg")}
+          />
+        );
+      } else if (offr.arrivee == "Salakta") {
+        return (
+          <Image
+            style={styles.image}
+            source={require("../assets/Tunis-Salakta.jpg")}
+          />
+        );
+      }
+    }
+
+    else {
       return (
         <MaterialIcons
           style={styles.icon}
           name="not-listed-location"
         ></MaterialIcons>
 
-        // <Image style={styles.image} source={require("../assets/others.png")} />
       );
     }
   };
+
+  console.log(`../assets/${offr.depart}-${offr.arrivee}.jpg`);
 
   const handleSelect = () => {
     alert("Pas encore implementé");
@@ -61,7 +135,11 @@ export default function Accueil({ route, navigation }) {
 
   return (
     <View style={s.container}>
-      <View style={styles.afficheMap}>{Test()}</View>
+      <View style={styles.afficheMap}>
+
+        {Test()}
+
+      </View>
       <View style={styles.Details}>
         <View style={styles.offre}>
           <View style={styles.offreheader}>
@@ -98,7 +176,7 @@ export default function Accueil({ route, navigation }) {
             <View style={styles.buttonContainer}>
               {parseInt(offr.places) > 0 ? (
                 <TouchableOpacity onPress={handleSelect} style={styles.button}>
-                  <Text style={styles.buttonText}>Payer</Text>
+                  <Text style={styles.buttonText}>Réserver</Text>
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity style={styles.button}>
@@ -118,8 +196,8 @@ export default function Accueil({ route, navigation }) {
               />
               <Text>
 
-              {new Date(offr.heure.seconds * 1000).getHours()}:
-              {new Date(offr.heure.seconds * 1000).getMinutes()}
+                {new Date(offr.heure.seconds * 1000).getHours()}:
+                {new Date(offr.heure.seconds * 1000).getMinutes()}
               </Text>
             </View>
 

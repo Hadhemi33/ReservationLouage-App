@@ -31,7 +31,7 @@ export default function Accueil() {
 
   const handleEnv = () => {
     auth.currentUser.reload().then(() => {
-      if (auth.currentUser.emailVerified) {
+      if (auth?.currentUser?.emailVerified) {
         alert("votre compte est vérifié");
         navigation.replace("Accueil");
       } else {
@@ -53,7 +53,7 @@ export default function Accueil() {
       </View>
       <View style={style.Textinfo}>
         <Text style={style.Textinfo1}>
-          Vous avez reçu un mail sur : {"\n"} {auth.currentUser.email}{" "}
+          Vous avez reçu un mail sur : {"\n"} {auth?.currentUser?.email}{" "}
         </Text>
       </View>
       <View style={style.buttnContainer}>

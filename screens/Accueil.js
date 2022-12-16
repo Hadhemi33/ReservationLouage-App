@@ -32,6 +32,11 @@ export default function Accueil() {
   const [offres, setOffres] = useState([]);
 
   useEffect(() => {
+
+    auth?.currentUser?.reload();
+
+  }, []);
+  useEffect(() => {
     setOffres([]);
     db.collection("offres")
       .get()
@@ -56,7 +61,7 @@ export default function Accueil() {
   const [searchText, setSearchText] = useState("");
 
   const handleAlertConnecter = () => {
-    return Alert.alert("Vous êtes sûr? ", "Vous devez conncter tout d'abords", [
+    return Alert.alert("Vous devez connecter  d'abords ", " Voulez vous connecter? ", [
       // The "Yes" button
       {
         text: "Oui",
@@ -232,10 +237,10 @@ export default function Accueil() {
 
                       <Text style={styles.textDepart}>
 
-                      {new Date(off.data().heureArrivee?.seconds * 1000).getHours()}:
+                        {new Date(off.data().heureArrivee?.seconds * 1000).getHours()}:
                         {new Date(off.data().heureArrivee?.seconds * 1000).getMinutes()}
 
- 
+
                       </Text>
                     </View>
 
