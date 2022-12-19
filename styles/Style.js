@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 module.exports = StyleSheet.create({
   loading: {
     transform: [{ scale: 4 }],
+    marginTop: 100,
     height: 200,
     fontSize: 50,
     flex: 1,
@@ -197,8 +198,7 @@ module.exports = StyleSheet.create({
   },
   reservations: {
     marginHorizontal: 20,
-    marginBottom: 200,
-
+    marginTop: 5,
 
   },
   reservation: {
@@ -289,7 +289,43 @@ module.exports = StyleSheet.create({
     fontSize: 20,
     color: "#078282",
     marginRight: 7,
-  }
+  }, buttonEtatAnnuler: {
+    backgroundColor: "red",
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    margin: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    right: 0,
+    bottom: 0
+},
+buttonEtatConfirmer: {
+    backgroundColor: "#4df24d",
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    margin: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    right: 0,
+    bottom: 0
+}
+,
+buttonEtatEnAttente: {
+    backgroundColor: "yellow",
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    margin: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    right: 0,
+    bottom: 0
+}
 
 });
 

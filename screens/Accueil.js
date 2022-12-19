@@ -116,7 +116,7 @@ export default function Accueil() {
         ),
     });
   }, [navigation]);
-  const [isChecked, setChecked] = useState(true);
+  const [isChecked, setChecked] = useState(false);
 
   return (
     <View style={s.container}>
@@ -292,6 +292,7 @@ export default function Accueil() {
                             onPress={() =>
                               navigation.navigate("detailOffre", {
                                 offr: off.data(),
+                                role : user?.role
                               })
                             }
                             style={styles.button}

@@ -91,80 +91,80 @@ export default function ListReservationChauffeur({ route, navigation }) {
                 <ActivityIndicator size="large" style={s.loading} color="#078282" />
 
                 :
-                <View>
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={modalVisible}
-                        onRequestClose={() => {
-                            Alert.alert("Modal has been closed.");
-                            setModalVisible(!modalVisible);
-                        }}
-                    >
-                        <View style={s.centeredView}>
-                            <View style={[s.modalView, { height: "40%" }]} >
-                                <TouchableOpacity
-                                    style={s.buttonClose}
-                                    onPress={() => setModalVisible(!modalVisible)}
-                                >
-                                    <MaterialIcons size={40} color='red' >
-                                        close
-                                    </MaterialIcons>
-                                </TouchableOpacity>
-                                <Text > Voulez vous  {etat == "confirmé" ? "Annuler" : etat == "annulé" ? "Confirmer" : "Confirmer ou annuler"} ?</Text>
-                                <View style={{ flexDirection: 'row', marginTop: 20 }}>
-                                    {etat != "confirmé" &&
-                                        <TouchableOpacity
-                                            style={style.buttonConfirmer}
-                                            onPress={() => handleConfirmer()}
-                                        >
-                                            <Text style={style.textStyle}>Confirmer</Text>
-                                        </TouchableOpacity>
-                                    }
-                                    {etat != "annulé" &&
-                                        <TouchableOpacity
-                                            style={style.buttonAnnuler}
-                                            onPress={() => handleAnnuler()}
-                                        >
-                                            <Text style={style.textStyle}>Annuler</Text>
-                                        </TouchableOpacity>
-                                    }
 
+                <ScrollView >
+                    <View style={s.reservations}>
+                        <Modal
+                            animationType="slide"
+                            transparent={true}
+                            visible={modalVisible}
+                            onRequestClose={() => {
+                                Alert.alert("Modal has been closed.");
+                                setModalVisible(!modalVisible);
+                            }}
+                        >
+                            <View style={s.centeredView}>
+                                <View style={[s.modalView, { height: "40%" }]} >
+                                    <TouchableOpacity
+                                        style={s.buttonClose}
+                                        onPress={() => setModalVisible(!modalVisible)}
+                                    >
+                                        <MaterialIcons size={40} color='red' >
+                                            close
+                                        </MaterialIcons>
+                                    </TouchableOpacity>
+                                    <Text > Voulez vous  {etat == "confirmé" ? "Annuler" : etat == "annulé" ? "Confirmer" : "Confirmer ou annuler"} ?</Text>
+                                    <View style={{ flexDirection: 'row', marginTop: 20 }}>
+                                        {etat != "confirmé" &&
+                                            <TouchableOpacity
+                                                style={style.buttonConfirmer}
+                                                onPress={() => handleConfirmer()}
+                                            >
+                                                <Text style={style.textStyle}>Confirmer</Text>
+                                            </TouchableOpacity>
+                                        }
+                                        {etat != "annulé" &&
+                                            <TouchableOpacity
+                                                style={style.buttonAnnuler}
+                                                onPress={() => handleAnnuler()}
+                                            >
+                                                <Text style={style.textStyle}>Annuler</Text>
+                                            </TouchableOpacity>
+                                        }
+
+
+                                    </View>
 
                                 </View>
-
                             </View>
+                        </Modal>
+                        <View style={[style.header]}>
+                            <Text style={style.headerText}>
+                                {new Date(offrePrincipale.data().date.seconds * 1000).getDate()}/
+                                {new Date(offrePrincipale.data().date.seconds * 1000).getMonth() + 1}/
+                                {new Date(offrePrincipale.data().date.seconds * 1000).getFullYear()}
+                            </Text>
+                            <View style={style.headerText}>
+                                <Text style={style.headerText}>
+                                    {offrePrincipale.data().depart}&nbsp;
+                                </Text>
+                                <Text style={style.headerText}>
+                                    <MaterialIcons
+                                        style={style.iconArrow}
+                                        name="arrow-forward"
+                                    ></MaterialIcons>
+                                </Text>
+                                <Text style={style.headerText}>
+                                    &nbsp;{offrePrincipale.data().arrivee}
+                                </Text>
+                            </View>
+                            <Text style={style.headerText}>
+                                {offrePrincipale.data().places} places restantes !
+                            </Text>
                         </View>
-                    </Modal>
-                    <View style={[style.header]}>
-                        <Text style={style.headerText}>
-                            {new Date(offrePrincipale.data().date.seconds * 1000).getDate()}/
-                            {new Date(offrePrincipale.data().date.seconds * 1000).getMonth() + 1}/
-                            {new Date(offrePrincipale.data().date.seconds * 1000).getFullYear()}
-                        </Text>
-                        <View style={style.headerText}>
-                            <Text style={style.headerText}>
-                                {offrePrincipale.data().depart}&nbsp;
-                            </Text>
-                            <Text style={style.headerText}>
-                                <MaterialIcons
-                                    style={style.iconArrow}
-                                    name="arrow-forward"
-                                ></MaterialIcons>
-                            </Text>
-                            <Text style={style.headerText}>
-                                &nbsp;{offrePrincipale.data().arrivee}
-                            </Text>
-                        </View>
-                        <Text style={style.headerText}>
-                            {offrePrincipale.data().places} places restantes !
-                        </Text>
-                    </View>
 
-                    <ScrollView >
-                        <View style={s.reservations}>
-
-                            {offres.map((offre) => {
+                        {offres.length != 0 ?
+                            offres.map((offre) => {
                                 return (
                                     <View style={s.reservation} key={offre.id}>
 
@@ -198,20 +198,20 @@ export default function ListReservationChauffeur({ route, navigation }) {
                                         </Text>
                                         {offre.data().etat == "confirmé" ?
                                             <TouchableOpacity
-                                                style={style.buttonEtatConfirmer}
+                                                style={s.buttonEtatConfirmer}
                                                 onPress={() => { setOffreSelected(offre.id); setModalVisible(true); setEtat(offre.data().etat) }} >
                                                 <Text>{offre.data().etat}</Text>
                                             </TouchableOpacity>
                                             :
                                             offre.data().etat == "annulé" ?
                                                 <TouchableOpacity
-                                                    style={style.buttonEtatAnnuler}
+                                                    style={s.buttonEtatAnnuler}
                                                     onPress={() => { setOffreSelected(offre.id); setModalVisible(true); setEtat(offre.data().etat) }} >
                                                     <Text>{offre.data().etat}</Text>
                                                 </TouchableOpacity>
                                                 :
                                                 <TouchableOpacity
-                                                    style={style.buttonEtatEnAttente}
+                                                    style={s.buttonEtatEnAttente}
                                                     onPress={() => { setOffreSelected(offre.id); setModalVisible(true) }} >
                                                     <Text>{offre.data().etat}</Text>
                                                 </TouchableOpacity>
@@ -221,11 +221,17 @@ export default function ListReservationChauffeur({ route, navigation }) {
                                     </View>
                                 )
                             }
-                            )}
-                        </View>
-                    </ScrollView>
+                            )
+                            :
+                            <View style={{ alignItems: "center", justifyContent: "center", marginTop: 20 }}>
+                                <Text style={{ fontSize: 20, fontWeight: "bold", color: "#078282" }}>Aucune réservation pour le moment !</Text>
+                            </View>
 
-                </View>
+                        }
+                    </View>
+                </ScrollView>
+
+               
 
             }
         </View>
@@ -280,42 +286,6 @@ const style = {
         textAlign: "center"
     },
 
-    buttonEtatAnnuler: {
-        backgroundColor: "red",
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-        margin: 10,
-        borderRadius: 10,
-        alignItems: "center",
-        justifyContent: "center",
-        position: "absolute",
-        right: 0,
-        bottom: 0
-    },
-    buttonEtatConfirmer: {
-        backgroundColor: "#4df24d",
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-        margin: 10,
-        borderRadius: 10,
-        alignItems: "center",
-        justifyContent: "center",
-        position: "absolute",
-        right: 0,
-        bottom: 0
-    }
-    ,
-    buttonEtatEnAttente: {
-        backgroundColor: "yellow",
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-        margin: 10,
-        borderRadius: 10,
-        alignItems: "center",
-        justifyContent: "center",
-        position: "absolute",
-        right: 0,
-        bottom: 0
-    }
+
 
 }
