@@ -24,6 +24,7 @@ import ModifierOffre from "./screens/ModifierOffre";
 import { useNavigation } from "@react-navigation/core";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import ListReservation from "./screens/ListReservation";
+import ListReservationChauffeur from "./screens/ListReservationChauffeur";
 const Stack = createNativeStackNavigator();
 
 
@@ -120,16 +121,24 @@ export default function App() {
 
         <Stack.Screen
           name="validationsuccess"
+
           component={validationsuccess}
         />
         <Stack.Screen
           name="ModifierOffre"
+          options={{ title: "Modfication d'offre " }}
           component={ModifierOffre}
         />
         <Stack.Screen
           name="ListReservation"
+          options={{ title: "Liste des réservations " }}
           component={ListReservation}
         />
+        <Stack.Screen
+        name="ListReservationChauffeur"
+        options={{ title: "Liste des réservations " }}
+        component={ListReservationChauffeur}
+      />
       </Stack.Navigator>
 
     </NavigationContainer>

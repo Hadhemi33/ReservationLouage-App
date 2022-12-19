@@ -71,7 +71,9 @@ export default function Signin() {
 
       <View style={styles.inputView}>
         <TextInput
+          textContentType="emailAddress"
           style={styles.inputText}
+          keyboardType="email-address"
           placeholder="Email..."
           placeholderTextColor="#003f5c"
           value={email}
@@ -84,6 +86,7 @@ export default function Signin() {
           style={styles.inputText}
           placeholderTextColor="#003f5c"
           secureTextEntry={true}
+          textContentType="password"
           value={password}
           onChangeText={(text) => setPassword(text)}
         />

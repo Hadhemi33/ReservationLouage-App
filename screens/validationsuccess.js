@@ -36,7 +36,7 @@ export default function Accueil() {
         navigation.replace("Accueil");
       } else {
         alert("votre compte n'est pas encore vérifié");
-        navigation.replace("validationsuccess");
+        // navigation.replace("validationsuccess");
       }
     });
   };
@@ -66,11 +66,6 @@ export default function Accueil() {
           <Text style={style.buttonTextInscrit}>Déconnexion </Text>
         </TouchableOpacity>
       </View>
-
-      <TouchableOpacity onPress={handleLogout} style={style.buttonEnvoyer}>
-          <Text style={style.buttonTextInscrit}>Déconnexion </Text>
-        </TouchableOpacity>
-
 
  
     </View>

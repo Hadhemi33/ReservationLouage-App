@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { auth, db } from "../firebase";
 import {
   View,
@@ -129,7 +129,16 @@ export default function Accueil({ route, navigation }) {
       );
     }
   };
+  const [offreId , setOffreId] = useState("")
 
+useEffect(() => {
+  db.collection.offres.where("depart", "==", offr.depart).where("chauffeur","==",offr.chauffeur).where("arrivee", "==", offr.arrivee).where("date", "==", offr.date).get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      setOffreId(doc.id)
+      console.log(doc.id)
+    });
+  });
+}, [])
 
   const handleSelect = () => {
     if (addresse.length > 0) {
@@ -140,9 +149,10 @@ export default function Accueil({ route, navigation }) {
         arrivee: offr.arrivee,
         nbplaces: nbplaces,
         addresse: addresse,
-        clientMail: auth.currentUser.email,
+        clientPhone : auth.currentUser.phoneNumber,
         clientName: auth.currentUser.displayName,
-        verified: false,
+        etat:'En attente',
+        offreId : offreId,
         dateReservation: new Date()
 
       }).then(() => {
@@ -479,7 +489,6 @@ export default function Accueil({ route, navigation }) {
       marginRight: 20,
     },
     buttonClose: {
-
       position: "absolute",
       left: 0,
       borderRadius: 20,

@@ -33,7 +33,7 @@ export default function SignupChauffeur() {
         const user = userCredential.user;
         user
           .updateProfile({
-            displayName: nom,
+            displayName: Identifiantunique,
           })
           .then(() => {
             user
@@ -55,7 +55,6 @@ export default function SignupChauffeur() {
             cin: cin,
             numerodetelephone: numerodetelephone,
             email: email,
-            motdepasse: motdepasse,
             role: "chauffeur",
           })
           .then(() => {

@@ -195,4 +195,101 @@ module.exports = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
   },
+  reservations: {
+    marginHorizontal: 20,
+    marginBottom: 200,
+
+
+  },
+  reservation: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 15,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: "#66D9D9",
+    borderLeftWidth: 7,
+  },
+  modalLigne: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    width: "80%",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 2,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    height: "80%",
+    width: "90%",
+
+  },
+  buttonClose: {
+    position: "absolute",
+    left: 0,
+    borderRadius: 20,
+    padding: 10,
+    width: 100,
+    height: 50,
+  },
+  offreClientNom: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#078282",
+    textShadowColor: "#078282",
+    textShadowOffset: { width: -2, height: 3 },
+    textShadowRadius: 40,
+    marginBottom: 10,
+    textAlign: "center",
+    marginTop: 0,
+  },
+  offreNbPlaces: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+    fontSize: 20,
+    borderStyle: "solid",
+    borderWidth: 3,
+    borderColor: "#078282",
+    flexDirection: "row",
+
+    color: "#078282",
+    borderRadius: 10,
+    padding: 10,
+    margin: 5,
+    width: "auto",
+    height: 45,
+  },
+  offreTextDetails : {
+    alignItems: "center",
+    fontSize: 15,
+    maxWidth: "70%",
+  },
+  offreTextDetailsIcon :{
+    fontSize: 20,
+    color: "#078282",
+    marginRight: 7,
+  }
+
 });
+

@@ -34,6 +34,12 @@ export default function App() {
       setIdentifiantUnique(doc.data().Identifiantunique? doc.data().Identifiantunique : "" ) ;
     });
   }, []);
+ 
+  // useEffect(() => {
+  //   auth.currentUser.updateProfile({
+  //     phoneNumber: numTel,
+  //   });
+  // }, [numTel]);
 
 
   const handleMetreAJour = () => {

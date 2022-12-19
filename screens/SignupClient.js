@@ -54,7 +54,6 @@ export default function SignupClient() {
             cin: cin,
             numerodetelephone: numerodetelephone,
             email: email,
-            motdepasse: motdepasse,
             role: "client",
           })
           .then(() => {
