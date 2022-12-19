@@ -119,7 +119,7 @@ export default function Accueil() {
   const [isChecked, setChecked] = useState(false);
 
   return (
-    <View style={s.container}>
+    <View style={[s.container]}>
       {/* chercher et filtrer  */}
       <View style={styles.chercher}>
         <View style={styles.search}>
@@ -453,8 +453,8 @@ const styles = StyleSheet.create({
 
   //liste d'offre
   bloc1: {
+    
     flex: 5,
-    backgroundColor: "white",
     width: "100%",
     height: "100%",
   },
