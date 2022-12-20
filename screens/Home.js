@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation ,useEffect } from "@react-navigation/core";
 import {
   View,
   StyleSheet,
@@ -9,7 +9,7 @@ import {
   s,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-
+import { auth, db } from "../firebase";
 export default function Home() {
   const navigation = useNavigation();
   const s = require("../styles/Style");
@@ -27,8 +27,9 @@ export default function Home() {
     alert("ConnecterGoogle");
   };
   const handlePasser = () => {
-    navigation.replace("Accueil");
+    navigation.replace("AccueilStack" , {role: "invité"} );
   };
+ 
   return (
     <View style={s.container}>
       <LinearGradient

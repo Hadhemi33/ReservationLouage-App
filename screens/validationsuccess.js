@@ -9,7 +9,7 @@ import {
   Text,
   TextInput,
 } from "react-native";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 export default function Accueil() {
 
   const s = require('../styles/Style')
@@ -20,7 +20,15 @@ export default function Accueil() {
     auth
       .signOut()
       .then(() => {
-        navigation.replace("Home");
+        db.collection("users").doc(auth?.currentUser?.uid).get().then((doc) => {
+          if (doc.data().role == "client") {
+            navigation.navigate("AccueilStack" , {role: "client"});
+          } else  if (doc.data().role == "chauffeur") {
+        navigation.navigate("AccueilStack" , {role: "chauffeur"});
+            
+            
+          }
+        });
         console.log("user logged out");
       })
       .catch((error) => {
@@ -33,7 +41,7 @@ export default function Accueil() {
     auth.currentUser.reload().then(() => {
       if (auth?.currentUser?.emailVerified) {
         alert("votre compte est vérifié");
-        navigation.replace("Accueil");
+        navigation.navigate("AccueilStack");
       } else {
         alert("votre compte n'est pas encore vérifié");
         // navigation.replace("validationsuccess");

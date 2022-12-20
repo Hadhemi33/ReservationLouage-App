@@ -20,7 +20,7 @@ export default function ListReservationChauffeur({ route, navigation }) {
     }, [])
     useEffect(() => {
         // db.collection("reservations").where("chauffeur", "==", auth.currentUser.displayName).get().then((querySnapshot) => {
-
+        console.log(auth.currentUser.displayName)
         db.collection("reservations")
         .where("chauffeur", "==", auth.currentUser.displayName)
         .where("offreId", "==", offr)
@@ -73,7 +73,7 @@ export default function ListReservationChauffeur({ route, navigation }) {
                 console.log(places)
                 console.log(nbplaces)
                 db.collection("offres").doc(offrePrincipale.id).update({
-                    places: places + nbplaces
+                    places: Number(places) + Number(nbplaces)
                 })
                 setModalVisible(!modalVisible)
                 navigation.replace("ListReservationChauffeur", { offr: offrePrincipale.id })
@@ -116,7 +116,7 @@ export default function ListReservationChauffeur({ route, navigation }) {
                                             close
                                         </MaterialIcons>
                                     </TouchableOpacity>
-                                    <Text > Voulez vous  {etat == "confirmé" ? "Annuler" : etat == "annulé" ? "Confirmer" : "Confirmer ou annuler"} ?</Text>
+                                    <Text > Voulez vous  {etat == "confirmé" ? "Annuler" : etat == "annulé" ? "Confirmer" : "Confirmer ou annuler"} cette réservation ?</Text>
                                     <View style={{ flexDirection: 'row', marginTop: 20 }}>
                                         {etat != "confirmé" &&
                                             <TouchableOpacity

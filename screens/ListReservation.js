@@ -62,7 +62,7 @@ export default function ListReservation() {
 
                                 return (
                                     <View style={s.reservation} key={reservation.id}>
-                                        {reservation.data().etat == "En attente" &&
+                                        {(reservation.data().etat == "En attente" || reservation.data().etat == "annulé" ) &&
                                             <TouchableOpacity
                                                 style={s.buttonSupprimer}
                                                 onPress={() => handleSupprimer(reservation.id)} >

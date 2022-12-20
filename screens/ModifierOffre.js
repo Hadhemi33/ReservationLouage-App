@@ -68,7 +68,14 @@ export default function ModifierOffre({ route, navigation }) {
       })
       .then(() => {
         alert("Offre modifiée avec succès");
-        navigation.replace("Accueil");
+        db.collection("users").doc(auth?.currentUser?.uid).get().then((doc) => {
+          if (doc.data().role == "client") {
+            navigation.navigate("AccueilStack", { role: "client" });
+          } else if (doc.data().role == "chauffeur") {
+            navigation.navigate("AccueilStack", { role: "chauffeur" });
+          }
+
+        })
       })
       .catch((error) => {
         console.log(error);
@@ -93,203 +100,211 @@ export default function ModifierOffre({ route, navigation }) {
               .delete()
               .then(() => {
                 alert("Offre supprimée avec succès");
-                navigation.replace("Accueil");
-              })
-              .catch((error) => {
-                console.log(error);
-              })
-        },
+                db.collection("users").doc(auth?.currentUser?.uid).get().then((doc) => {
+                  if (doc.data().role == "client") {
+                    navigation.replace("AccueilStack", { role: "client" });
+                  } else if (doc.data().role == "chauffeur") {
+                    navigation.replace("AccueilStack", { role: "chauffeur" });
+                  }
+
+                })
+              
+        })
+      .catch((error) => {
+        console.log(error);
+      })
+  },
       ],
-      { cancelable: false }
+  { cancelable: false }
     );
-  };
+};
 
 
 
-  const s = require("../styles/Style");
+const s = require("../styles/Style");
 
-  const region = [
-    { label: "Elguettar", value: "Elguettar" },
-    { label: "Metlaoui", value: "Metlaoui" },
-    { label: "Salakta", value: "Salakta" },
-    { label: "Tunis", value: "Tunis" },
-  ];
-  return (
-    <View style={styles.container}>
-      <View style={styles.inputView}>
+const region = [
+  { label: "Elguettar", value: "Elguettar" },
+  { label: "Metlaoui", value: "Metlaoui" },
+  { label: "Salakta", value: "Salakta" },
+  { label: "Tunis", value: "Tunis" },
+];
+return (
+  <View style={styles.container}>
+    <View style={styles.inputView}>
 
 
-        <Picker
-          style={styles.inputText}
-          selectedValue={depart}
-          mode="dropdown"
-          onValueChange={(itemValue, itemIndex) =>
-            setDepart(itemValue)
-          }>
-          {region.filter((item) => item.value !== arrivee).
-            map((item, index) => {
-              return (
-                <Picker.Item label={item.label} value={item.value} key={index} />
-              )
-            }
-            )}
-
-        </Picker>
-
-        <Picker
-          style={styles.inputText}
-          selectedValue={arrivee}
-          mode="dropdown"
-          onValueChange={(itemValue, itemIndex) =>
-            setArrivee(itemValue)
-          }>
-          {region.filter((item) => item.value !== depart).map((item, index) => {
+      <Picker
+        style={styles.inputText}
+        selectedValue={depart}
+        mode="dropdown"
+        onValueChange={(itemValue, itemIndex) =>
+          setDepart(itemValue)
+        }>
+        {region.filter((item) => item.value !== arrivee).
+          map((item, index) => {
             return (
               <Picker.Item label={item.label} value={item.value} key={index} />
             )
           }
           )}
-        </Picker>
+
+      </Picker>
+
+      <Picker
+        style={styles.inputText}
+        selectedValue={arrivee}
+        mode="dropdown"
+        onValueChange={(itemValue, itemIndex) =>
+          setArrivee(itemValue)
+        }>
+        {region.filter((item) => item.value !== depart).map((item, index) => {
+          return (
+            <Picker.Item label={item.label} value={item.value} key={index} />
+          )
+        }
+        )}
+      </Picker>
 
 
-        {/* date */}
+      {/* date */}
 
-        {datePicker && (
-          <DateTimePicker
-            value={date}
-            mode={"date"}
-            display={"default"}
-            is24Hour={true}
-            onChange={onDateSelected}
-            minimumDate={new Date()}
-            maximumDate={new Date(2023, 11, 31)}
+      {datePicker && (
+        <DateTimePicker
+          value={date}
+          mode={"date"}
+          display={"default"}
+          is24Hour={true}
+          onChange={onDateSelected}
+          minimumDate={new Date()}
+          maximumDate={new Date(2023, 11, 31)}
 
-            style={styles.datePicker}
+          style={styles.datePicker}
+        />
+      )}
+      {!datePicker && (
+        <View style={{ margin: 5 }}>
+          <TouchableOpacity
+            title="Show Date Picker"
+            conPress={showDatePicker}
           />
-        )}
-        {!datePicker && (
-          <View style={{ margin: 5 }}>
-            <TouchableOpacity
-              title="Show Date Picker"
-              conPress={showDatePicker}
-            />
-          </View>
-        )}
-        <View style={styles.inputlabel}>
-          <Text style={styles.TextLabel}>Date : </Text>
-          <TouchableOpacity onPress={showDatePicker}>
-            <Text
-              placeholder="Date..."
-              placeholderTextColor="#003f5c"
-            >
-              {date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}
-            </Text>
-          </TouchableOpacity>
         </View>
-
-        {/* Heure */}
-        {timePicker && (
-          <DateTimePicker
-            value={time}
-            mode={"time"}
-            display={"default"}
-            is24Hour={false}
-            onChange={onTimeSelected}
-            minuteInterval={5}
-            style={styles.datePicker}
-          />
-        )}
-        {!timePicker && (
-          <View style={{ margin: 5 }}>
-            <TouchableOpacity
-              title="Show Time Picker"
-              color="green"
-              onPress={showTimePicker}
-            />
-          </View>
-        )}
-        <View style={styles.inputlabel}>
-          <Text style={styles.TextLabel}>Heure: </Text>
-          <TouchableOpacity onPress={showTimePicker}>
-            <Text
-              placeholder="Heure..."
-              placeholderTextColor="#003f5c"
-            >
-              {time.getHours()}:{time.getMinutes()}
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Heure d'arrivée */}
-
-        {timeArriveePicker && (
-          <DateTimePicker
-            value={timeArrivee}
-            mode={"time"}
-            display={"default"}
-            is24Hour={false}
-            minuteInterval={5}
-            onChange={onTimeArriveeSelected}
-            style={styles.datePicker}
-          />
-        )}
-        {!timeArriveePicker && (
-          <View style={{ margin: 10 }}>
-            <TouchableOpacity
-              title="Show Time Picker"
-              color="green"
-              onPress={showTimeArriveePicker}
-            />
-          </View>
-        )}
-        <View style={styles.inputlabel}>
-          <Text style={styles.TextLabel}>Heure d'arrivée: </Text>
-          <TouchableOpacity onPress={showTimeArriveePicker}>
-            <Text
-              placeholder="Heure Depart"
-              placeholderTextColor="#003f5c"
-            >
-              {timeArrivee.getHours()}:{timeArrivee.getMinutes()}
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.inputlabel}>
-          <Text style={styles.TextLabel}>Prix : </Text>
-
-          <TextInput
-            style={styles.inputText}
-            placeholder="Prix..."
+      )}
+      <View style={styles.inputlabel}>
+        <Text style={styles.TextLabel}>Date : </Text>
+        <TouchableOpacity onPress={showDatePicker}>
+          <Text
+            placeholder="Date..."
             placeholderTextColor="#003f5c"
-            value={prix}
-            keyboardType="numeric"
-
-            onChangeText={(text) => setPrix(text)}
-          />
-        </View>
-        <View style={styles.inputlabel}>
-          <Text style={styles.TextLabel}>Nombre des places : </Text>
-
-          <TextInput
-            style={styles.inputText}
-            placeholder="Nombre des places"
-            placeholderTextColor="#003f5c"
-            value={places}
-            keyboardType="numeric"
-
-            onChangeText={(text) => setPlaces(text)}
-          />
-        </View>
+          >
+            {date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}
+          </Text>
+        </TouchableOpacity>
       </View>
 
-      <TouchableOpacity onPress={handleModifier} style={styles.buttonModifier}>
-        <Text style={styles.buttonModifier}>Modifer </Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleSupprimer} style={styles.buttonSupprimer}>
-        <Text style={styles.buttonSupprimer}>supprimer </Text>
-      </TouchableOpacity>
+      {/* Heure */}
+      {timePicker && (
+        <DateTimePicker
+          value={time}
+          mode={"time"}
+          display={"default"}
+          is24Hour={false}
+          onChange={onTimeSelected}
+          minuteInterval={5}
+          style={styles.datePicker}
+        />
+      )}
+      {!timePicker && (
+        <View style={{ margin: 5 }}>
+          <TouchableOpacity
+            title="Show Time Picker"
+            color="green"
+            onPress={showTimePicker}
+          />
+        </View>
+      )}
+      <View style={styles.inputlabel}>
+        <Text style={styles.TextLabel}>Heure: </Text>
+        <TouchableOpacity onPress={showTimePicker}>
+          <Text
+            placeholder="Heure..."
+            placeholderTextColor="#003f5c"
+          >
+            {time.getHours()}:{time.getMinutes()}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Heure d'arrivée */}
+
+      {timeArriveePicker && (
+        <DateTimePicker
+          value={timeArrivee}
+          mode={"time"}
+          display={"default"}
+          is24Hour={false}
+          minuteInterval={5}
+          onChange={onTimeArriveeSelected}
+          style={styles.datePicker}
+        />
+      )}
+      {!timeArriveePicker && (
+        <View style={{ margin: 10 }}>
+          <TouchableOpacity
+            title="Show Time Picker"
+            color="green"
+            onPress={showTimeArriveePicker}
+          />
+        </View>
+      )}
+      <View style={styles.inputlabel}>
+        <Text style={styles.TextLabel}>Heure d'arrivée: </Text>
+        <TouchableOpacity onPress={showTimeArriveePicker}>
+          <Text
+            placeholder="Heure Depart"
+            placeholderTextColor="#003f5c"
+          >
+            {timeArrivee.getHours()}:{timeArrivee.getMinutes()}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.inputlabel}>
+        <Text style={styles.TextLabel}>Prix : </Text>
+
+        <TextInput
+          style={styles.inputText}
+          placeholder="Prix..."
+          placeholderTextColor="#003f5c"
+          value={prix}
+          keyboardType="numeric"
+
+          onChangeText={(text) => setPrix(text)}
+        />
+      </View>
+      <View style={styles.inputlabel}>
+        <Text style={styles.TextLabel}>Nombre des places : </Text>
+
+        <TextInput
+          style={styles.inputText}
+          placeholder="Nombre des places"
+          placeholderTextColor="#003f5c"
+          value={places}
+          keyboardType="numeric"
+
+          onChangeText={(text) => setPlaces(text)}
+        />
+      </View>
     </View>
-  );
+
+    <TouchableOpacity onPress={handleModifier} style={styles.buttonModifier}>
+      <Text style={styles.buttonModifier}>Modifer </Text>
+    </TouchableOpacity>
+    <TouchableOpacity onPress={handleSupprimer} style={styles.buttonSupprimer}>
+      <Text style={styles.buttonSupprimer}>supprimer </Text>
+    </TouchableOpacity>
+  </View>
+);
 }
 
 const styles = StyleSheet.create({

@@ -150,7 +150,7 @@ export default function Accueil({ route, navigation }) {
       return;
     }
       db.collection("reservations").add({
-        chauffeur: offr.chauffeur,
+        chauffeur: offr.chauffeurID,
         dateOffre: offr.date,
         heureOffre: offr.heure,
         depart: offr.depart,
@@ -166,7 +166,9 @@ export default function Accueil({ route, navigation }) {
       }).then(() => {
         alert("Reservation effectuée avec succès");
         setModalVisible(!modalVisible);
-        navigation.replace("Accueil");
+        navigation.replace("AccueilStack"
+        , {role: role}
+        );
       }).catch((error) => {
         alert(error.message);
       }

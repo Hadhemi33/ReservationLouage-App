@@ -34,7 +34,7 @@ export default function AjouterOffre() {
   function showTimeArriveePicker() {
     setTimeArriveePicker(true);
   }
- 
+
   function onDateSelected(event, value) {
     setDate(value);
     setDatePicker(false);
@@ -128,12 +128,20 @@ export default function AjouterOffre() {
       })
       .then(() => {
         setAdded(!added);
-        navigation.replace("Accueil");
+        db.collection("users").doc(auth?.currentUser?.uid).get().then((doc) => {
+          if (doc.data().role == "client") {
+            navigation.replace("AccueilStack", { role: "client" });
+          } else if (doc.data().role == "chauffeur") {
+            navigation.replace("AccueilStack", { role: "chauffeur" });
+          }
+
+        })
+
         alert("Offre ajoutée avec succès");
       })
       .catch((error) => {
         alert(error);
-      }); 
+      });
   };
 
 
@@ -164,7 +172,7 @@ export default function AjouterOffre() {
             )}
 
         </Picker>
- 
+
 
         <Picker
           style={styles.inputText}
@@ -274,7 +282,7 @@ export default function AjouterOffre() {
             />
           </View>
         )}
-        <TouchableOpacity   onPress={showTimeArriveePicker}>
+        <TouchableOpacity onPress={showTimeArriveePicker}>
           <Text
             style={styles.inputText}
             placeholder="Heure Depart"
