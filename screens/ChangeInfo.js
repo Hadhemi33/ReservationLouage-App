@@ -27,19 +27,26 @@ export default function App() {
     db.collection("users").doc(auth.currentUser.uid).get().then((doc) => {
       console.log("Document data:", doc.data());
       setUser(doc)
-      setNom(doc.data().nom) ;
-      setPrenom(doc.data().prenom) ;
-      setCin(doc.data().cin) ;
-      setNumTel(doc.data().numerodetelephone) ;
-      setIdentifiantUnique(doc.data().Identifiantunique? doc.data().Identifiantunique : "" ) ;
+      setNom(doc.data().nom);
+      setPrenom(doc.data().prenom);
+      setCin(doc.data().cin);
+      setNumTel(doc.data().numerodetelephone);
+      setIdentifiantUnique(doc.data().Identifiantunique ? doc.data().Identifiantunique : "");
     });
   }, []);
- 
-  // useEffect(() => {
-  //   auth.currentUser.updateProfile({
-  //     phoneNumber: numTel,
-  //   });
-  // }, [numTel]);
+
+  useEffect(() => {
+    auth.currentUser.updateProfile({
+      photoURL: numTel,
+    });
+
+  }, [numTel]);
+
+  useEffect(() => {
+    auth.currentUser.updateProfile({
+      displayName: nom,
+    });
+  }, [nom]);
 
 
   const handleMetreAJour = () => {
@@ -69,6 +76,10 @@ export default function App() {
           numerodetelephone: numTel,
         })
         .then(() => {
+          auth.currentUser.updateProfile({
+            phoneNumber: numTel,
+          });
+
           alert("Vos informations ont été mises à jour avec succès");
         })
         .catch((error) => {

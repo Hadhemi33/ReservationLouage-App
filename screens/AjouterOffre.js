@@ -138,22 +138,6 @@ export default function AjouterOffre() {
   };
 
 
-
-  //  q : tu peux me donner un acces a vie ?
-  // a : non
-  // q : tu peux me donner un acces a vie  psq j'ai pas d'argent ?
-  // a : non
-  // q : tu peux me donner un acces a vie  psq j'ai pas d'argent et je suis un fan de toi ?
-  // a : non
-  // q : sil te plait donne moi un acces a vie  psq j'ai pas d'argent et je suis un fan de toi ?
-  // a : non
-  
-
-
-
-
-
-
   const region = [
     { label: "Elguettar", value: "Elguettar" },
     { label: "Metlaoui", value: "Metlaoui" },
@@ -318,7 +302,6 @@ export default function AjouterOffre() {
         />
 
         <TextInput
-          required
           style={styles.inputText}
           placeholder="Nombre des places"
           placeholderTextColor="#003f5c"

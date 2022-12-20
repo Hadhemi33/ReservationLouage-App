@@ -157,7 +157,7 @@ export default function Accueil({ route, navigation }) {
         arrivee: offr.arrivee,
         nbplaces: nbplaces,
         addresse: addresse,
-        clientPhone: auth.currentUser.phoneNumber,
+        clientPhone: auth.currentUser.photoURL,
         clientName: auth.currentUser.displayName,
         etat: 'En attente',
         offreId: offreId,

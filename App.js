@@ -5,7 +5,6 @@ import { View, Text, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Signin from "./screens/Signin";
-import TabBarNavigation from "./screens/TabBarNavigation";
 import { LinearGradient } from "expo-linear-gradient";
 
 import Home from "./screens/Home";
@@ -14,14 +13,10 @@ import SignupChauffeur from "./screens/SignupChauffeur";
 import Accueil from "./screens/Accueil";
 import SignupChoix from "./screens/SignupChoix";
 import validationsuccess from "./screens/validationsuccess";
-import Done from "./screens/Done";
 import AjouterOffre from "./screens/AjouterOffre";
 import ChangeInfo from "./screens/ChangeInfo";
 import detailOffre from "./screens/detailOffre";
-import MdpsOublie from "./screens/MdpsOublie";
-import codeVerif from "./screens/codeVerif";
 import ModifierOffre from "./screens/ModifierOffre";
-import { useNavigation } from "@react-navigation/core";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import ListReservation from "./screens/ListReservation";
 import ListReservationChauffeur from "./screens/ListReservationChauffeur";
@@ -36,7 +31,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          
+
           headerTintColor: '#fff',
           headerTitleStyle: {
             fontWeight: 'bold',
@@ -57,7 +52,7 @@ export default function App() {
           ),
         }}
       >
-      
+
         <Stack.Screen
           name="Home"
           component={Home}
@@ -74,14 +69,6 @@ export default function App() {
         />
 
         <Stack.Screen
-          name="codeVerif"
-          component={codeVerif}
-        />
-        <Stack.Screen
-          name="MdpsOublie"
-          component={MdpsOublie}
-        />
-        <Stack.Screen
           name="detailOffre"
           component={detailOffre}
           options={{ title: "Détails" }}
@@ -92,10 +79,7 @@ export default function App() {
           component={ChangeInfo}
         />
 
-        <Stack.Screen
-          name="TabBarNavigation"
-          component={TabBarNavigation}
-        />
+
 
         <Stack.Screen
           name="SignupChoix"
@@ -114,10 +98,6 @@ export default function App() {
           component={Signin}
         />
 
-        <Stack.Screen
-          name="Done"
-          component={Done}
-        />
 
         <Stack.Screen
           name="validationsuccess"
@@ -135,10 +115,10 @@ export default function App() {
           component={ListReservation}
         />
         <Stack.Screen
-        name="ListReservationChauffeur"
-        options={{ title: "Liste des réservations " }}
-        component={ListReservationChauffeur}
-      />
+          name="ListReservationChauffeur"
+          options={{ title: "Liste des réservations " }}
+          component={ListReservationChauffeur}
+        />
       </Stack.Navigator>
 
     </NavigationContainer>

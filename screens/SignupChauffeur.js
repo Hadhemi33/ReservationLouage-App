@@ -34,17 +34,18 @@ export default function SignupChauffeur() {
         user
           .updateProfile({
             displayName: Identifiantunique,
+            phoneNumber: numerodetelephone,
           })
           .then(() => {
             user
               .sendEmailVerification()
               .then(() => {})
               .catch((error) => {
-                console.log(error.message);
+                alert(error.message);
               });
           })
           .catch((error) => {
-            console.log(error.message);
+            alert(error.message);
           });
         db.collection("users")
           .doc(user.uid)
@@ -58,6 +59,7 @@ export default function SignupChauffeur() {
             role: "chauffeur",
           })
           .then(() => {
+            console.log(user);
             console.log("user ajouté!");
           })
           .catch((error) => {
@@ -69,7 +71,7 @@ export default function SignupChauffeur() {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        alert(errorCode, errorMessage);
       });
   };
   const navigation = useNavigation();

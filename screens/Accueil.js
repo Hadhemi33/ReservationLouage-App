@@ -9,14 +9,18 @@ import {
   TextInput,
   ScrollView,
   ActivityIndicator,
-  Input,
+  RefreshControl,
   Alert,
 } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import "react-native-gesture-handler";
 import Checkbox from "expo-checkbox";
 import Menu from "./Menu";
-import { lastChild } from "@react-native-material/core";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 export default function Accueil() {
   const s = require("../styles/Style");
@@ -31,15 +35,22 @@ export default function Accueil() {
 
   const [loading, setLoading] = useState(true);
   const [offres, setOffres] = useState([]);
-
+  const [refreshed, setRefreshed] = useState(false);
   useEffect(() => {
 
     auth?.currentUser?.reload();
 
+
   }, []);
   useEffect(() => {
+    getOffres();
+  }, []);
+
+  const getOffres = () => {
     setOffres([]);
+
     db.collection("offres")
+      // .where("date",">=",new Date())
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -47,8 +58,7 @@ export default function Accueil() {
           setLoading(false);
         });
       });
-  }, []);
-
+  }
   const [user, setUser] = useState(null);
   useEffect(() => {
     db.collection("users")
@@ -118,6 +128,20 @@ export default function Accueil() {
   }, [navigation]);
   const [isChecked, setChecked] = useState(false);
 
+  const test = () => {
+    console.log("test");
+    setRefreshed(!refreshed)
+    console.log(refreshed)
+  }
+  const [refreshing, setRefreshing] = React.useState(false);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getOffres();
+
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
   return (
     <View style={[s.container]}>
       {/* chercher et filtrer  */}
@@ -151,7 +175,16 @@ export default function Accueil() {
       {/* Liste  des offres  */}
       <View style={styles.bloc1}>
         {/* ////////////////////////////////////////////////////////// */}
-        <ScrollView style={styles.scrollView}>
+        <ScrollView style={styles.scrollView}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
+        >
+          <Text>
+          </Text>
 
           {!loading ? (
             offres
@@ -260,7 +293,7 @@ export default function Accueil() {
                     <View style={styles.buttonContainer}>
                       {user?.role == "chauffeur" &&
                         user?.Identifiantunique === off?.data().chauffeurID && (
-                          <View style={{flexDirection:'row'}}>
+                          <View style={{ flexDirection: 'row' }}>
                             <TouchableOpacity
                               onPress={() =>
                                 navigation.navigate("ModifierOffre", {
@@ -277,7 +310,7 @@ export default function Accueil() {
                                   offr: off.id,
                                 })
                               }
-                              style={[styles.button,{marginLeft:5}]}
+                              style={[styles.button, { marginLeft: 5 }]}
                             >
                               <Text style={styles.buttonText}>Réservations </Text>
                             </TouchableOpacity>
@@ -292,7 +325,7 @@ export default function Accueil() {
                             onPress={() =>
                               navigation.navigate("detailOffre", {
                                 offr: off.data(),
-                                role : user?.role
+                                role: user?.role
                               })
                             }
                             style={styles.button}
@@ -326,8 +359,9 @@ export default function Accueil() {
           </View>
         </ScrollView>
       </View>
-      <Menu role={user?.role} />
-
+      {user &&
+        <Menu role={user?.role} />
+      }
     </View>
   );
 }
@@ -429,7 +463,7 @@ const styles = StyleSheet.create({
   icon: {
     position: "absolute",
     fontSize: 30,
-    left: 180,
+    left: 195,
     top: 7,
     zIndex: 1,
     color: "#000",
@@ -453,7 +487,7 @@ const styles = StyleSheet.create({
 
   //liste d'offre
   bloc1: {
-    
+
     flex: 5,
     width: "100%",
     height: "100%",
