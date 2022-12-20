@@ -3,8 +3,7 @@ import { View, Text, ActivityIndicator, ScrollView, TouchableOpacity, Alert } fr
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 import { db, auth } from '../firebase';
-export default function ListReservation({ route, navigation }) {
-    const { role } = route.params;
+export default function ListReservation() {
     const [loading, setLoading] = useState(true)
     const [reservations, setReservations] = useState([]);
     const s = require("../styles/Style");

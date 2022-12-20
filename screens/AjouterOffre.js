@@ -164,14 +164,7 @@ export default function AjouterOffre() {
             )}
 
         </Picker>
-
-        {/* <TextInput
-            style={styles.inputText}
-            placeholder="Depart..."
-            placeholderTextColor="#003f5c"
-            value={depart}
-            onChangeText={(text) => setDepart(text)}
-          /> */}
+ 
 
         <Picker
           style={styles.inputText}

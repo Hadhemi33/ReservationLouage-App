@@ -53,9 +53,7 @@ export default function AccueilStack({ route, navigation }) {
             {role == "chauffeur" &&
                 <Drawer.Screen name="AjouterOffre" component={AjouterOffre} options={{ title: "Ajouter un offre" }} />
             }
-            {role == "chauffeur" &&
-                <Drawer.Screen name="ListReservationChauffeur" component={ListReservationChauffeur} options={{ title: "Les réservations" }} />
-            }
+ 
             {role == "client" &&
                 <Drawer.Screen name="ListReservation" component={ListReservation} options={{ title: "Mes réservations" }} />
             }
