@@ -1,11 +1,10 @@
 //import { StyleSheet, Text, View,Image,TextInput,Button,TouchableOpacity } from 'react-native';
 
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button ,TouchableOpacity} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Signin from "./screens/Signin";
-import TabBarNavigation from "./screens/TabBarNavigation";
 import { LinearGradient } from "expo-linear-gradient";
 
 import Home from "./screens/Home";
@@ -14,17 +13,13 @@ import SignupChauffeur from "./screens/SignupChauffeur";
 import Accueil from "./screens/Accueil";
 import SignupChoix from "./screens/SignupChoix";
 import validationsuccess from "./screens/validationsuccess";
-import Done from "./screens/Done";
 import AjouterOffre from "./screens/AjouterOffre";
 import ChangeInfo from "./screens/ChangeInfo";
 import detailOffre from "./screens/detailOffre";
-import MdpsOublie from "./screens/MdpsOublie";
-import codeVerif from "./screens/codeVerif";
 import ModifierOffre from "./screens/ModifierOffre";
-import { useNavigation } from "@react-navigation/core";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import ListReservation from "./screens/ListReservation";
 import ListReservationChauffeur from "./screens/ListReservationChauffeur";
+import AccueilStack from "./screens/AccueilStack";
 const Stack = createNativeStackNavigator();
 
 
@@ -35,33 +30,53 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        screenOptions={{
-          
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-          headerBackground: () => (
-            <LinearGradient
-              colors={["#2DBDBD", "#078282"]}
-              style={s.linearGradient}
-            />
-          ),
-
-
-          headerRight: () => (
-            <View>
-              <TouchableOpacity>
-              </TouchableOpacity>
-            </View>
-          ),
-        }}
+     
       >
-      
+
         <Stack.Screen
+          options={{ headerShown: false, indpendent: true }}
           name="Home"
           component={Home}
         />
+
+        <Stack.Screen
+          options={{ headerShown: false, indpendent: true }}
+
+          name="SignupChoix"
+          component={SignupChoix}
+        />
+        <Stack.Screen
+          options={{ headerShown: false, indpendent: true }}
+
+          name="SignupChauffeur"
+          component={SignupChauffeur}
+        />
+        <Stack.Screen
+          options={{ headerShown: false, indpendent: true }}
+
+          name="SignupClient"
+          component={SignupClient}
+        />
+        <Stack.Screen
+          options={{ headerShown: false, indpendent: true }}
+          name="Signin"
+          component={Signin}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+
+          name="validationsuccess"
+          component={validationsuccess}
+        />
+
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="AccueilStack"
+          component={AccueilStack}>
+
+        </Stack.Screen>
+
+
         <Stack.Screen
           name="AjouterOffre"
           component={AjouterOffre}
@@ -74,56 +89,25 @@ export default function App() {
         />
 
         <Stack.Screen
-          name="codeVerif"
-          component={codeVerif}
-        />
-        <Stack.Screen
-          name="MdpsOublie"
-          component={MdpsOublie}
-        />
-        <Stack.Screen
+
           name="detailOffre"
           component={detailOffre}
-          options={{ title: "Détails" }}
+          options={{ title: "Détails" ,headerShown: false }}
         />
 
         <Stack.Screen
+          options={{ headerShown: false }}
+
           name="ChangeInfo"
           component={ChangeInfo}
         />
 
-        <Stack.Screen
-          name="TabBarNavigation"
-          component={TabBarNavigation}
-        />
 
-        <Stack.Screen
-          name="SignupChoix"
-          component={SignupChoix}
-        />
-        <Stack.Screen
-          name="SignupChauffeur"
-          component={SignupChauffeur}
-        />
-        <Stack.Screen
-          name="SignupClient"
-          component={SignupClient}
-        />
-        <Stack.Screen
-          name="Signin"
-          component={Signin}
-        />
 
-        <Stack.Screen
-          name="Done"
-          component={Done}
-        />
 
-        <Stack.Screen
-          name="validationsuccess"
 
-          component={validationsuccess}
-        />
+
+
         <Stack.Screen
           name="ModifierOffre"
           options={{ title: "Modfication d'offre " }}
@@ -135,10 +119,10 @@ export default function App() {
           component={ListReservation}
         />
         <Stack.Screen
-        name="ListReservationChauffeur"
-        options={{ title: "Liste des réservations " }}
-        component={ListReservationChauffeur}
-      />
+          name="ListReservationChauffeur"
+          options={{ title: "Liste des réservations " }}
+          component={ListReservationChauffeur}
+        />
       </Stack.Navigator>
 
     </NavigationContainer>

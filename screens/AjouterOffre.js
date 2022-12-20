@@ -121,7 +121,6 @@ export default function AjouterOffre() {
         date: date,
         heure: time,
         heureArrivee: timeArrivee,
-
         depart,
         arrivee,
         prix,
@@ -136,22 +135,6 @@ export default function AjouterOffre() {
         alert(error);
       }); 
   };
-
-
-
-  //  q : tu peux me donner un acces a vie ?
-  // a : non
-  // q : tu peux me donner un acces a vie  psq j'ai pas d'argent ?
-  // a : non
-  // q : tu peux me donner un acces a vie  psq j'ai pas d'argent et je suis un fan de toi ?
-  // a : non
-  // q : sil te plait donne moi un acces a vie  psq j'ai pas d'argent et je suis un fan de toi ?
-  // a : non
-  
-
-
-
-
 
 
   const region = [
@@ -181,14 +164,7 @@ export default function AjouterOffre() {
             )}
 
         </Picker>
-
-        {/* <TextInput
-            style={styles.inputText}
-            placeholder="Depart..."
-            placeholderTextColor="#003f5c"
-            value={depart}
-            onChangeText={(text) => setDepart(text)}
-          /> */}
+ 
 
         <Picker
           style={styles.inputText}
@@ -318,7 +294,6 @@ export default function AjouterOffre() {
         />
 
         <TextInput
-          required
           style={styles.inputText}
           placeholder="Nombre des places"
           placeholderTextColor="#003f5c"

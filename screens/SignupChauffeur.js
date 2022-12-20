@@ -34,17 +34,18 @@ export default function SignupChauffeur() {
         user
           .updateProfile({
             displayName: Identifiantunique,
+            phoneNumber: numerodetelephone,
           })
           .then(() => {
             user
               .sendEmailVerification()
               .then(() => {})
               .catch((error) => {
-                console.log(error.message);
+                alert(error.message);
               });
           })
           .catch((error) => {
-            console.log(error.message);
+            alert(error.message);
           });
         db.collection("users")
           .doc(user.uid)
@@ -58,6 +59,7 @@ export default function SignupChauffeur() {
             role: "chauffeur",
           })
           .then(() => {
+            console.log(user);
             console.log("user ajouté!");
           })
           .catch((error) => {
@@ -69,7 +71,7 @@ export default function SignupChauffeur() {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        alert(errorCode, errorMessage);
       });
   };
   const navigation = useNavigation();
@@ -174,16 +176,7 @@ export default function SignupChauffeur() {
         </View>
         <View style={{ flex: 1, height: 1.5, backgroundColor: "black" }} />
       </View>
-      {/* <View style={s.imageView}>
-            <Image
-              style={s.logofb}
-              source={require("./assets/icons8-facebook-circled-48.png")}
-            />
-            <Image
-              style={s.logogoogle}
-              source={require("./assets/logogoogle.png")}
-            />
-          </View> */}
+      
       <View
         style={{
           width: "90%",
@@ -191,7 +184,7 @@ export default function SignupChauffeur() {
         }}
       >
         <Text style={s.TextcreerInscrit}>Vous avez déjà un compte ?</Text>
-        <Text style={s.TextconnecterInscrit}>Connectez-vous</Text>
+        <Text style={s.TextconnecterInscrit} onPress={()=> navigation.navigate("Signin")}>Connectez-vous</Text>
       </View>
     </View>
   );

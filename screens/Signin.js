@@ -11,15 +11,24 @@ import {
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/core";
 
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user.emailVerified) {
+        db.collection("users").doc(user.uid).get().then((doc) => {
+          if (doc.data().role == "client") {
+            navigation.replace("AccueilStack" , {role: "client"});
+          } else  if (doc.data().role == "chauffeur") {
+        navigation.replace("AccueilStack" , {role: "chauffeur"});
+          }
+          else {
+            navigation.replace("AccueilStack" , {role: "Invité"});
+          }
+        });
 
-        navigation.replace("Accueil");
       }
       else {
         navigation.replace("validationsuccess");

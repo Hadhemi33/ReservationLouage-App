@@ -157,7 +157,7 @@ export default function Accueil({ route, navigation }) {
         arrivee: offr.arrivee,
         nbplaces: nbplaces,
         addresse: addresse,
-        clientPhone: auth.currentUser.phoneNumber,
+        clientPhone: auth.currentUser.photoURL,
         clientName: auth.currentUser.displayName,
         etat: 'En attente',
         offreId: offreId,
@@ -201,8 +201,8 @@ export default function Accueil({ route, navigation }) {
                 close
               </MaterialIcons>
             </TouchableOpacity>
-            <Text style={styles.modalText}>Réservation</Text>
-            <Text style={styles.modalText}>Votre address:</Text>
+            <Text style={styles.modalText}>Réservation : </Text>
+            <Text style={styles.modalText}>Votre address</Text>
             <TextInput
               multiline
               numberOfLines={4}
@@ -335,6 +335,9 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
+    fontSize: 20,
+    color:"#078282",
+    fontWeight: "bold",
     textAlign: "center",
   },
   centeredView: {
@@ -357,8 +360,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    height: "80%",
-    width: "90%",
+    height: "60%",
+    width: "85%",
 
   },
   btnBack: {
@@ -396,25 +399,13 @@ const styles = StyleSheet.create({
     top: "50%",
     color: "#fff",
   },
-  // identity: {
-  //   fontSize: 50,
-
-  //   left: "650%",
-  //   top: "10%",
-  //   color: "#fff",
-  // },
+ 
   user: {
     flexDirection: "row",
     //space between
     justifyContent: "space-between",
   },
-  // nameuser: {
-  //   color: "#fff",
-  //   fontSize: 15,
-  //   fontWeight: "bold",
-  //   left: 100,
-  //   top: "60%",
-  // },
+ 
 
   Details: {
     flex: 2,

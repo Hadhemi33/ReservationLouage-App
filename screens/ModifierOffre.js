@@ -5,6 +5,7 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  Alert
 } from "react-native";
 
 import { db } from "../firebase";
@@ -75,17 +76,35 @@ export default function ModifierOffre({ route, navigation }) {
   };
 
   const handleSupprimer = () => {
-    db.collection("offres")
-      .doc(offr.id)
-      .delete()
-      .then(() => {
-        alert("Offre supprimée avec succès");
-        navigation.replace("Accueil");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    Alert.alert(
+      "Supprimer l'offre",
+      "Voulez-vous vraiment supprimer cette offre ?",
+      [
+        {
+          text: "Annuler",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "Supprimer", onPress: () =>
+
+            db.collection("offres")
+              .doc(offr.id)
+              .delete()
+              .then(() => {
+                alert("Offre supprimée avec succès");
+                navigation.replace("Accueil");
+              })
+              .catch((error) => {
+                console.log(error);
+              })
+        },
+      ],
+      { cancelable: false }
+    );
   };
+
+
 
   const s = require("../styles/Style");
 
@@ -99,16 +118,6 @@ export default function ModifierOffre({ route, navigation }) {
     <View style={styles.container}>
       <View style={styles.inputView}>
 
-        {/* <View style={styles.inputlabel}>
-          <Text style={styles.TextLabel}>Depart: </Text>
-          <TextInput
-            style={styles.inputText}
-            placeholder="Depart..."
-            placeholderTextColor="#003f5c"
-            value={depart}
-            onChangeText={(text) => setDepart(text)}
-          />
-        </View> */}
 
         <Picker
           style={styles.inputText}
@@ -141,16 +150,7 @@ export default function ModifierOffre({ route, navigation }) {
           }
           )}
         </Picker>
-        {/* <View style={styles.inputlabel}>
-          <Text style={styles.TextLabel}>Destination : </Text>
-          <TextInput
-            style={styles.inputText}
-            placeholder="Destination..."
-            placeholderTextColor="#003f5c"
-            value={arrivee}
-            onChangeText={(text) => setArrivee(text)}
-          />
-        </View> */}
+
 
         {/* date */}
 
@@ -282,11 +282,11 @@ export default function ModifierOffre({ route, navigation }) {
         </View>
       </View>
 
-      <TouchableOpacity onPress={handleModifier} style={styles.buttonInscrit}>
-        <Text style={s.buttonTextInscrit}>Modifer </Text>
+      <TouchableOpacity onPress={handleModifier} style={styles.buttonModifier}>
+        <Text style={styles.buttonModifier}>Modifer </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleSupprimer} style={styles.buttonInscrit}>
-        <Text style={s.buttonTextInscrit}>supprimer </Text>
+      <TouchableOpacity onPress={handleSupprimer} style={styles.buttonSupprimer}>
+        <Text style={styles.buttonSupprimer}>supprimer </Text>
       </TouchableOpacity>
     </View>
   );
@@ -359,5 +359,27 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
     marginBottom: 10,
+  },
+  buttonModifier: {
+    backgroundColor: "#2DBDBD",
+    width: "70%",
+    padding: 10,
+    borderRadius: 10,
+    color: "white",
+    alignItems: "center",
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  buttonSupprimer: {
+    width: "70%",
+    borderRadius: 10,
+    alignItems: "center",
+
+    padding: 10,
+    backgroundColor: "#FF0000",
+    color: "white",
+    fontSize: 20,
+    textAlign: "center",
   },
 });

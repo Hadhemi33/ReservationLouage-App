@@ -21,7 +21,10 @@ export default function ListReservationChauffeur({ route, navigation }) {
     useEffect(() => {
         // db.collection("reservations").where("chauffeur", "==", auth.currentUser.displayName).get().then((querySnapshot) => {
 
-        db.collection("reservations").where("chauffeur", "==", auth.currentUser.displayName).get().then((querySnapshot) => {
+        db.collection("reservations")
+        .where("chauffeur", "==", auth.currentUser.displayName)
+        .where("offreId", "==", offr)
+        .get().then((querySnapshot) => {
             offres.length = 0;
             querySnapshot.forEach((doc) => {
                 offres.push(doc)
@@ -43,7 +46,7 @@ export default function ListReservationChauffeur({ route, navigation }) {
                     etat: "confirmé"
                 }).then(() => {
                     db.collection("offres").doc(offrePrincipale.id).update({
-                        places: places - nbplaces
+                        places: places - nbplaces+""
                     })
                     setModalVisible(!modalVisible)
                     navigation.replace("ListReservationChauffeur", { offr: offrePrincipale.id })
