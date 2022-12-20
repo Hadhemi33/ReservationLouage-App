@@ -282,11 +282,11 @@ export default function ModifierOffre({ route, navigation }) {
         </View>
       </View>
 
-      <TouchableOpacity onPress={handleModifier} style={styles.buttonInscrit}>
-        <Text style={s.buttonTextInscrit}>Modifer </Text>
+      <TouchableOpacity onPress={handleModifier} style={styles.buttonModifier}>
+        <Text style={styles.buttonModifier}>Modifer </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleSupprimer} style={styles.buttonInscrit}>
-        <Text style={s.buttonTextInscrit}>supprimer </Text>
+      <TouchableOpacity onPress={handleSupprimer} style={styles.buttonSupprimer}>
+        <Text style={styles.buttonSupprimer}>supprimer </Text>
       </TouchableOpacity>
     </View>
   );
@@ -359,5 +359,27 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
     marginBottom: 10,
+  },
+  buttonModifier: {
+    backgroundColor: "#2DBDBD",
+    width: "70%",
+    padding: 10,
+    borderRadius: 10,
+    color: "white",
+    alignItems: "center",
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  buttonSupprimer: {
+    width: "70%",
+    borderRadius: 10,
+    alignItems: "center",
+
+    padding: 10,
+    backgroundColor: "#FF0000",
+    color: "white",
+    fontSize: 20,
+    textAlign: "center",
   },
 });

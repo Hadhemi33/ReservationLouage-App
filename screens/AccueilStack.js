@@ -65,6 +65,13 @@ export default function AccueilStack({ route, navigation }) {
             <Drawer.Screen name="detailOffre" component={detailOffre} options={{
                 drawerItemStyle: { height: 0 }
             }} />
+              <Drawer.Screen name="ModifierOffre" component={ModifierOffre} options={{
+                drawerItemStyle: { height: 0 }
+            }} />
+             
+             <Drawer.Screen name="ListReservationChauffeur" component={ListReservationChauffeur} options={{
+                drawerItemStyle: { height: 0 }
+            }} />
 
 
         </Drawer.Navigator>
