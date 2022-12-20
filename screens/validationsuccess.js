@@ -31,12 +31,12 @@ export default function Accueil() {
 
   const handleEnv = () => {
     auth.currentUser.reload().then(() => {
-      if (auth.currentUser.emailVerified) {
+      if (auth?.currentUser?.emailVerified) {
         alert("votre compte est vérifié");
         navigation.replace("Accueil");
       } else {
         alert("votre compte n'est pas encore vérifié");
-        navigation.replace("validationsuccess");
+        // navigation.replace("validationsuccess");
       }
     });
   };
@@ -53,7 +53,7 @@ export default function Accueil() {
       </View>
       <View style={style.Textinfo}>
         <Text style={style.Textinfo1}>
-          Vous avez reçu un mail sur : {"\n"} {auth.currentUser.email}{" "}
+          Vous avez reçu un mail sur : {"\n"} {auth?.currentUser?.email}{" "}
         </Text>
       </View>
       <View style={style.buttnContainer}>
@@ -66,11 +66,6 @@ export default function Accueil() {
           <Text style={style.buttonTextInscrit}>Déconnexion </Text>
         </TouchableOpacity>
       </View>
-
-      <TouchableOpacity onPress={handleLogout} style={style.buttonEnvoyer}>
-          <Text style={style.buttonTextInscrit}>Déconnexion </Text>
-        </TouchableOpacity>
-
 
  
     </View>

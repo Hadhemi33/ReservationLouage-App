@@ -16,6 +16,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import "react-native-gesture-handler";
 import Checkbox from "expo-checkbox";
 import Menu from "./Menu";
+import { lastChild } from "@react-native-material/core";
 
 export default function Accueil() {
   const s = require("../styles/Style");
@@ -31,6 +32,11 @@ export default function Accueil() {
   const [loading, setLoading] = useState(true);
   const [offres, setOffres] = useState([]);
 
+  useEffect(() => {
+
+    auth?.currentUser?.reload();
+
+  }, []);
   useEffect(() => {
     setOffres([]);
     db.collection("offres")
@@ -56,7 +62,7 @@ export default function Accueil() {
   const [searchText, setSearchText] = useState("");
 
   const handleAlertConnecter = () => {
-    return Alert.alert("Vous êtes sûr? ", "Vous devez conncter tout d'abords", [
+    return Alert.alert("Vous devez connecter  d'abords ", " Voulez vous connecter? ", [
       // The "Yes" button
       {
         text: "Oui",
@@ -113,7 +119,7 @@ export default function Accueil() {
   const [isChecked, setChecked] = useState(false);
 
   return (
-    <View style={s.container}>
+    <View style={[s.container]}>
       {/* chercher et filtrer  */}
       <View style={styles.chercher}>
         <View style={styles.search}>
@@ -137,28 +143,8 @@ export default function Accueil() {
               <Text style={styles.textFiltre}> Mes offres </Text>
             </View>
           )}
-          {user?.role == "client" && (
-            <TouchableOpacity
-              style={styles.filtreOffre}
-              onPress={() => {
-                alert("pas encore implementé");
-              }}
-            >
-              <Text style={styles.textFiltre}>Mes réservation </Text>
-            </TouchableOpacity>
-          )}
-          {user?.role == "chauffeur" && (
-            <View style={styles.filtreOffre}>
-              <MaterialIcons style={styles.addIcon} name="add-circle" />
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("AjouterOffre");
-                }}
-              >
-                <Text style={styles.textFiltre}>Ajouter un trajet </Text>
-              </TouchableOpacity>
-            </View>
-          )}
+
+
         </View>
       </View>
 
@@ -210,7 +196,7 @@ export default function Accueil() {
                         style={styles.iconCar}
                         name="supervisor-account"
                       ></MaterialIcons>
-                      <Text style={styles.textPrix}>{off.data().places}/8</Text>
+                      <Text style={styles.textPrix}>{off.data().places}</Text>
                     </View>
                   </View>
                   <View style={styles.offrebody}>
@@ -232,10 +218,10 @@ export default function Accueil() {
 
                       <Text style={styles.textDepart}>
 
-                      {new Date(off.data().heureArrivee?.seconds * 1000).getHours()}:
+                        {new Date(off.data().heureArrivee?.seconds * 1000).getHours()}:
                         {new Date(off.data().heureArrivee?.seconds * 1000).getMinutes()}
 
- 
+
                       </Text>
                     </View>
 
@@ -274,17 +260,31 @@ export default function Accueil() {
                     <View style={styles.buttonContainer}>
                       {user?.role == "chauffeur" &&
                         user?.Identifiantunique === off?.data().chauffeurID && (
-                          // à changer avec modifier offre
-                          <TouchableOpacity
-                            onPress={() =>
-                              navigation.navigate("ModifierOffre", {
-                                offr: off,
-                              })
-                            }
-                            style={styles.button}
-                          >
-                            <Text style={styles.buttonText}>Modifier</Text>
-                          </TouchableOpacity>
+                          <View style={{flexDirection:'row'}}>
+                            <TouchableOpacity
+                              onPress={() =>
+                                navigation.navigate("ModifierOffre", {
+                                  offr: off,
+                                })
+                              }
+                              style={styles.button}
+                            >
+                              <Text style={styles.buttonText}>Modifier</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                              onPress={() =>
+                                navigation.navigate("ListReservationChauffeur", {
+                                  offr: off.id,
+                                })
+                              }
+                              style={[styles.button,{marginLeft:5}]}
+                            >
+                              <Text style={styles.buttonText}>Réservations </Text>
+                            </TouchableOpacity>
+                          </View>
+
+
+
                         )}
                       {user?.role == "chauffeur" &&
                         user?.Identifiantunique !== off.data().chauffeurID && (
@@ -292,12 +292,14 @@ export default function Accueil() {
                             onPress={() =>
                               navigation.navigate("detailOffre", {
                                 offr: off.data(),
+                                role : user?.role
                               })
                             }
                             style={styles.button}
                           >
                             <Text style={styles.buttonText}>Consulter</Text>
                           </TouchableOpacity>
+
                         )}
                       {user?.role == "client" && (
                         <TouchableOpacity
@@ -318,6 +320,10 @@ export default function Accueil() {
           ) : (
             <ActivityIndicator size="large" style={s.loading} color="#078282" />
           )}
+
+          <View style={styles.blankView}>
+
+          </View>
         </ScrollView>
       </View>
       <Menu role={user?.role} />
@@ -326,6 +332,9 @@ export default function Accueil() {
   );
 }
 const styles = StyleSheet.create({
+  blankView: {
+    height: 40,
+  },
   connect: {
     flexDirection: "row",
     alignItems: "center",
@@ -444,14 +453,15 @@ const styles = StyleSheet.create({
 
   //liste d'offre
   bloc1: {
+    
     flex: 5,
-    backgroundColor: "white",
     width: "100%",
     height: "100%",
   },
   scrollView: {
     marginHorizontal: 20,
   },
+
   offre: {
     fontSize: 42,
 
@@ -524,6 +534,8 @@ const styles = StyleSheet.create({
   offreChauffeur: {
     flexDirection: "row",
     marginTop: 10,
+    alignItems: "center",
+
   },
   offrefooter: {
     flexDirection: "row",
@@ -546,10 +558,10 @@ const styles = StyleSheet.create({
 
   button: {
     backgroundColor: "white",
-    padding: 15,
+    paddingVertical: 15,
+    paddingHorizontal: 7,
     borderRadius: 10,
     alignItems: "flex-end",
-
     height: "auto",
     borderEndWidth: 3,
     borderBottomWidth: 3,
