@@ -121,7 +121,6 @@ export default function AjouterOffre() {
         date: date,
         heure: time,
         heureArrivee: timeArrivee,
-
         depart,
         arrivee,
         prix,

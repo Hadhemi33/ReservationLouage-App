@@ -25,13 +25,7 @@ const wait = (timeout) => {
 export default function Accueil() {
   const s = require("../styles/Style");
   const navigation = useNavigation();
-  const [toggleCheckBox, setToggleCheckBox] = useState(false);
-
-  const handleMenu = () => {
-
-    navigation.navigate("ChangeInfo");
-
-  };
+  
 
   const [loading, setLoading] = useState(true);
   const [offres, setOffres] = useState([]);
@@ -71,59 +65,27 @@ export default function Accueil() {
 
   const [searchText, setSearchText] = useState("");
 
-  const handleAlertConnecter = () => {
-    return Alert.alert("Vous devez connecter  d'abords ", " Voulez vous connecter? ", [
-      // The "Yes" button
-      {
-        text: "Oui",
-        onPress: () => {
-          navigation.replace("Home");
-        },
-      },
-      // The "No" button
-      // Does nothing but dismiss the dialog when tapped
-      {
-        text: "Non",
-      },
-    ]);
-  };
+  
 
   React.useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => <Text></Text>,
+
       headerRight: () =>
-        auth?.currentUser?.email ? (
-          <TouchableOpacity
-            style={styles.headerRight}
-            onPress={handleMenu}
-            title="Menu"
-          >
-            <Text style={styles.buttonBackText}>
-              {auth?.currentUser?.displayName
-                ? auth?.currentUser?.displayName
-                : "Unknown"}
-            </Text>
-            <Text>
-              <MaterialIcons
-                style={styles.identity}
-                name="account-circle"
-              ></MaterialIcons>{" "}
-            </Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={styles.headerRight}
-            onPress={handleAlertConnecter}
-            title="Alert connecter"
-          >
-            <Text>
-              <MaterialIcons
-                style={styles.identity}
-                name="account-circle"
-              ></MaterialIcons>{" "}
-            </Text>
-          </TouchableOpacity>
-        ),
+        <View style={{flexDirection:"row"}}>
+
+          <Text style={styles.buttonBackText}>
+            {auth?.currentUser?.displayName
+              ? auth?.currentUser?.displayName
+              : "Unknown"}
+          </Text>
+          <Text>
+            <MaterialIcons
+              style={styles.identity}
+              name="account-circle"
+            ></MaterialIcons>{" "}
+          </Text>
+        </View>
+
     });
   }, [navigation]);
   const [isChecked, setChecked] = useState(false);
@@ -353,15 +315,10 @@ export default function Accueil() {
           ) : (
             <ActivityIndicator size="large" style={s.loading} color="#078282" />
           )}
-
-          <View style={styles.blankView}>
-
-          </View>
+ 
         </ScrollView>
       </View>
-      {user &&
-        <Menu role={user?.role} />
-      }
+      
     </View>
   );
 }
