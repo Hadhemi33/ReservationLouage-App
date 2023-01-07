@@ -198,7 +198,7 @@ module.exports = StyleSheet.create({
   },
   reservations: {
     marginHorizontal: 20,
-    marginTop: 5,
+    marginTop: 20,
 
   },
   reservation: {

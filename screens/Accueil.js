@@ -10,22 +10,16 @@ import {
   ScrollView,
   ActivityIndicator,
   RefreshControl,
-  Alert,
 } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import "react-native-gesture-handler";
 import Checkbox from "expo-checkbox";
-import Menu from "./Menu";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
-const wait = (timeout) => {
-  return new Promise(resolve => setTimeout(resolve, timeout));
-}
+
 
 export default function Accueil() {
   const s = require("../styles/Style");
   const navigation = useNavigation();
-  
 
   const [loading, setLoading] = useState(true);
   const [offres, setOffres] = useState([]);
@@ -44,7 +38,7 @@ export default function Accueil() {
     setOffres([]);
 
     db.collection("offres")
-      // .where("date",">=",new Date())
+      .where("date",">=",new Date())
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -65,18 +59,18 @@ export default function Accueil() {
 
   const [searchText, setSearchText] = useState("");
 
-  
+
 
   React.useEffect(() => {
     navigation.setOptions({
 
       headerRight: () =>
-        <View style={{flexDirection:"row"}}>
-
+        <View style={{ flexDirection: "row" }} onPress={()=> navigation.replace("SignIn")}>
+          
           <Text style={styles.buttonBackText}>
             {auth?.currentUser?.displayName
               ? auth?.currentUser?.displayName
-              : "Unknown"}
+              : "Invité "}
           </Text>
           <Text>
             <MaterialIcons
@@ -90,11 +84,7 @@ export default function Accueil() {
   }, [navigation]);
   const [isChecked, setChecked] = useState(false);
 
-  const test = () => {
-    console.log("test");
-    setRefreshed(!refreshed)
-    console.log(refreshed)
-  }
+  
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -315,10 +305,10 @@ export default function Accueil() {
           ) : (
             <ActivityIndicator size="large" style={s.loading} color="#078282" />
           )}
- 
+
         </ScrollView>
       </View>
-      
+
     </View>
   );
 }
@@ -410,7 +400,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     height: 60,
-    marginTop: 10,
+    marginTop: 20,
     left: 0,
     top: -50,
     alignItems: "center",
